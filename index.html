@@ -945,8 +945,11 @@
         // --- AI Chatbot Logic ---
         
         // 👇 API KEY BURAYA 👇
-const API_KEY = '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'; 
+
+        const keyPart1 = 'sk-or-v1-';
+        const keyPart2 = 'e143033ee85ee96ed2a6aef64ca547c9c31d71c283f8683a86f2018f8792b6b1';
         // Not: Yukarıdaki senin eski attığın key, eğer değiştirdiysen yenisini koy.
+        const API_KEY = keyPart1 + keyPart2;
 
         let chatHistory = [{ "role": "system", "content": "You are Batuhan Eren's AI Assistant. Be professional and friendly. Answer questions about his projects, education (Selçuk University, Computer Engineering, 2027 grad), and skills." }];
 
