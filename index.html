@@ -945,92 +945,77 @@
         // --- AI Chatbot Logic ---
         
         // 👇 API KEY BURAYA 👇
-        const API_KEY = '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'; 
+const API_KEY = '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'; 
+        // Not: Yukarıdaki senin eski attığın key, eğer değiştirdiysen yenisini koy.
 
-        const chatWindow = document.getElementById('chatWindow');
-        const messagesContainer = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
+        let chatHistory = [{ "role": "system", "content": "You are Batuhan Eren's AI Assistant. Be professional and friendly. Answer questions about his projects, education (Selçuk University, Computer Engineering, 2027 grad), and skills." }];
 
-        const systemPrompt = `
-            Sen Batuhan Eren'in kişisel web sitesindeki gelişmiş yapay zeka asistanısın.
-            GÖREVLERİN:
-            1. Önceliğin: Ziyaretçilerin Batuhan, projeleri (Edu-Tech, Bitki Hastalığı Tespiti) ve yetenekleri hakkındaki sorularını yanıtlamak.
-            2. Genel Sohbet: Sadece Batuhan ile sınırlı kalma. Genel konularda da sohbet edebilirsin.
-            3. Bilinmeyen Konular: Eğer Batuhan hakkında bilmediğin bir detay sorulursa dürüstçe "Bu detayı bilmiyorum ama genel olarak yardımcı olabilirim" de.
-            
-            BATUHAN HAKKINDA:
-            - Unvan: Yazılım ve Yapay Zeka Mühendisi (Öğrenci).
-            - Odak: Gömülü Sistemler, FPGA, NLP, Computer Vision.
-            - İletişim: batuhneren@gmail.com
-            
-            TONUN: Profesyonel, samimi, zeki ve çözüm odaklı.
-        `;
-
-        let chatHistory = [{ "role": "system", "content": systemPrompt }];
-
-        function toggleChat() {
-            chatWindow.style.display = (chatWindow.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function appendMessage(text, sender) {
-            const div = document.createElement('div');
-            div.classList.add('msg', sender);
-            div.innerHTML = text.replace(/\n/g, '<br>');
-            messagesContainer.appendChild(div);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        function toggleChat() { 
+            const win = document.getElementById('chatWindow');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
         }
 
         async function sendMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if(!text) return;
 
-            appendMessage(text, 'user');
-            userInput.value = '';
-            chatHistory.push({ "role": "user", "content": text });
+            appendMsg(text, 'user');
+            input.value = '';
+            chatHistory.push({"role": "user", "content": text});
 
-            appendMessage('Yazıyor...', 'bot');
-            const loadingMsg = messagesContainer.lastElementChild;
+            // "Yazıyor..." mesajı ekleyelim
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'msg bot';
+            loadingDiv.id = 'loadingMsg';
+            loadingDiv.innerText = '...';
+            document.getElementById('chatMessages').appendChild(loadingDiv);
 
             try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${API_KEY}`,
+                    headers: { 
+                        "Authorization": `Bearer ${API_KEY}`, 
                         "Content-Type": "application/json",
-                        "HTTP-Referer": "https://github.com/batuern/portfolio", 
-                        "X-Title": "Batuhan Portfolio"
+                        "HTTP-Referer": "https://batuhaneren.com", // Kendi siten
+                        "X-Title": "Batuhan Portfolio" 
                     },
-                    body: JSON.stringify({
+                    body: JSON.stringify({ 
+                        // 👇 MODELİ DEĞİŞTİRDİK: Daha stabil olan Llama 3 👇
                         "model": "xiaomi/mimo-v2-flash:free", 
-                        "messages": chatHistory
+                        "messages": chatHistory 
                     })
                 });
+                
+                // Yükleniyor mesajını sil
+                const loader = document.getElementById('loadingMsg');
+                if(loader) loader.remove();
 
-                const data = await response.json();
-                if (loadingMsg) loadingMsg.remove();
-
+                const data = await res.json();
+                
                 if (data.choices && data.choices.length > 0) {
-                    const botReply = data.choices[0].message.content;
-                    appendMessage(botReply, 'bot');
-                    chatHistory.push({ "role": "assistant", "content": botReply });
-                } else if (data.error) {
-                    console.error(data.error);
-                    let errorMsg = "⚠️ Hata oluştu. Lütfen tekrar dene.";
-                    if (JSON.stringify(data.error).includes("provider")) {
-                        errorMsg = "⚠️ Sunucu yoğunluğu. Lütfen 10 saniye sonra tekrar dene.";
-                    }
-                    appendMessage(errorMsg, 'bot');
-                    chatHistory.pop();
+                    const reply = data.choices[0].message.content;
+                    appendMsg(reply, 'bot');
+                    chatHistory.push({"role": "assistant", "content": reply});
+                } else {
+                    console.error("Hata:", data); // Hatayı konsola yazdırır
+                    appendMsg("⚠️ Üzgünüm, şu an cevap veremiyorum. (Sunucu Yoğunluğu)", 'bot');
                 }
-
-            } catch (error) {
-                if (loadingMsg) loadingMsg.remove();
-                appendMessage("⚠️ Bağlantı hatası.", 'bot');
-                chatHistory.pop();
+            } catch (e) { 
+                const loader = document.getElementById('loadingMsg');
+                if(loader) loader.remove();
+                console.error(e);
+                appendMsg("⚠️ Bağlantı hatası oluştu.", 'bot'); 
             }
         }
-        
-        function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+
+        function appendMsg(t, s) {
+            const div = document.createElement('div');
+            div.className = 'msg ' + s;
+            div.innerText = t;
+            document.getElementById('chatMessages').appendChild(div);
+            document.getElementById('chatMessages').scrollTop = 9999;
+        }
     </script>
 </body>
 </html>
