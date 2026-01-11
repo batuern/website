@@ -588,6 +588,7 @@
 
         .chat-input-box button:hover { transform: translateY(-2px); }
 
+
         /* Footer */
         footer {
             background: rgba(10, 14, 39, 0.8);
@@ -683,6 +684,35 @@
                 padding: 1.5rem;
             }
         }
+        /* Chatbot Seçenek Butonları */
+.chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 0 5px;
+}
+
+.chat-option-btn {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+.chat-option-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
     </style>
 </head>
 <body>
@@ -886,12 +916,12 @@
         </div>
         <div class="chat-body" id="chatMessages">
             <div class="msg bot">
-                Merhaba! Ben Batuhan'ın asistanıyım. Projeleri, yetenekleri veya genel konularda ne sormak istersin?
+                Selam Batuhan! 👋 Ben senin asistanınım. Sana nasıl yardımcı olabilirim? Aşağıdaki konulardan birini seçebilirsin:
             </div>
         </div>
         <div class="chat-input-box">
-            <input type="text" id="userInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">➤</button>
+            <input type="text" id="userInput" placeholder="Ask Anything..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()" style="background:var(--primary); border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer">Send</button>
         </div>
     </div>
 
@@ -905,27 +935,66 @@
     </div>
 
     <script>
-        // --- SAYFA GEÇİŞ MANTIĞI (Routing - DÜZELTİLDİ) ---
+        // Seçenek butonlarını ekrana basan fonksiyon
+function appendOptions() {
+    const messagesContainer = document.getElementById('chatMessages');
+    
+    // Eğer zaten butonlar varsa tekrar ekleme
+    if (document.querySelector('.chat-options')) return;
+
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'chat-options';
+
+    const options = [
+        { text: "🚀 Projelerin hakkında bilgi ver", query: "Projelerin (Edu-Tech, Bitki Hastalığı) hakkında bilgi verir misin?" },
+        { text: "💻 Yeteneklerin neler?", query: "Yazılım ve AI konusundaki yeteneklerin neler?" },
+        { text: "🎓 Eğitim hayatın nasıl?", query: "Selçuk Üniversitesi Bilgisayar Mühendisliği eğitimin hakkında bilgi verir misin?" }
+    ];
+
+    options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'chat-option-btn';
+        btn.innerText = opt.text;
+        btn.onclick = () => {
+            document.getElementById('userInput').value = opt.query;
+            sendMessage();
+            optionsContainer.remove(); // Tıklanınca butonları kaldır
+        };
+        optionsContainer.appendChild(btn);
+    });
+
+    messagesContainer.appendChild(optionsContainer);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// 2. Chat açıldığında butonları otomatik gösteren ayar
+function toggleChat() { 
+    const win = document.getElementById('chatWindow');
+    const isOpening = (win.style.display !== 'flex');
+    win.style.display = isOpening ? 'flex' : 'none';
+    
+    if (isOpening) {
+        // Chat açılınca 500ms sonra butonları göster (daha doğal durur)
+        setTimeout(appendOptions, 500);
+    }
+}
+       
+         // --- SAYFA GEÇİŞ MANTIĞI (Routing - DÜZELTİLDİ) ---
         const sections = document.querySelectorAll('section');
         const progressBars = document.querySelectorAll('.skill-fill');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        function switchSection(targetId) {
-            // Tüm bölümleri gizle
+
+ function switchSection(targetId) {
             sections.forEach(sec => sec.classList.remove('active'));
-            
-            // Tüm menü linklerinden aktifliği kaldır
             navLinks.forEach(link => link.classList.remove('active-link'));
 
-            // İstenen bölümü göster
             const targetSection = document.getElementById(targetId);
             if(targetSection) targetSection.classList.add('active');
 
-            // İlgili linki aktif yap (Eğer nav bar daysa)
             const activeLink = document.getElementById('nav-' + targetId);
             if(activeLink) activeLink.classList.add('active-link');
 
-            // Skill animasyonu
             if(targetId === 'skills') {
                 setTimeout(fillSkills, 300);
             } else {
@@ -941,12 +1010,10 @@
         }
 
         function resetSkills() {
-            progressBars.forEach(bar => {
-                bar.style.width = '0';
-            });
+            progressBars.forEach(bar => { bar.style.width = '0'; });
         }
 
-        // --- Project Modal Logic ---
+        // --- 2. PROJECT MODAL LOGIC ---
         function showProjectDetails(projectId) {
             const modal = document.getElementById('projectModal');
             const modalBody = document.getElementById('modalBody');
@@ -960,85 +1027,77 @@
                     </div>
                     <div class="project-detail-section">
                         <h3>📋 Proje Özeti</h3>
-                        <p>Bu proje, 36 saat süren <strong>Doping Technology AI in Education Hackathon 2025</strong> kapsamında geliştirilmiş ve final aşamasına (Top 9) kalma başarısı göstermiştir. YKS'ye hazırlanan öğrencilerin sınav başarı oranlarını artırmayı hedefleyen sistem, <strong>Amazon Bedrock</strong> altyapısı üzerine inşa edilmiştir.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>✨ Temel Özellikler</h3>
-                        <ul class="feature-list">
-                            <li><strong>Akıllı Soru Üretimi:</strong> Claude ve ChatGPT API'lerini kullanarak, kişiselleştirilmiş pratik soruları otomatik olarak üretir.</li>
-                            <li><strong>Oyunlaştırma:</strong> Öğrencilerin motivasyonunu artırmak amacıyla rekabetçi bir modül geliştirilmiştir.</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>🛠️ Teknolojik Altyapı</h3>
-                        <div class="tech-stack-grid">
-                            <div class="tech-item">C#</div>
-                            <div class="tech-item">ASP.NET Core</div>
-                            <div class="tech-item">Amazon Bedrock</div>
-                            <div class="tech-item">GenAI</div>
-                        </div>
-                    </div>
-                `;
-            } 
-            else if (projectId === 'plantdisease') {
-  modalBody.innerHTML = `
-                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Plant Disease App">
-                <div class="project-detail-header">
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <p>36 saat süren <strong>Doping Technology AI Hackathon 2025</strong>'te finale kalan bu proje, Amazon Bedrock kullanarak kişiselleştirilmiş YKS hazırlık soruları üretir.</p>
+                    </div>`;
+            } else if (projectId === 'plantdisease') {
+                modalBody.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Plant Disease App">
+                    <div class="project-detail-header">
                         <div class="project-badge">🍃 Computer Vision</div>
-                        <div class="project-badge" style="background: rgba(250, 204, 21, 0.1); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                        <h2>Bitki Hastalığı Tespit Uygulaması</h2>
                     </div>
-                    <h2>Bitki Hastalığı Tespit Uygulaması</h2>
-                </div>
-                <div class="project-detail-section">
-                    <h3>📋 Proje Özeti</h3>
-                    <p>Tarımsal verimliliği artırmak amacıyla geliştirilen bu proje, bitki yapraklarının fotoğraflarını analiz ederek hastalıkları erken evrede tespit eder. Şu an aktif geliştirme sürecinde olan projeye yeni veri setleri ve özellikler eklenmeye devam etmektedir.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>✨ Temel Özellikler</h3>
-                    <ul class="feature-list">
-                        <li><strong>Yüksek Doğruluk:</strong> YOLOv8 modeli kullanılarak eğitilen sistem, %98 üzerinde doğruluk oranıyla çalışır.</li>
-                        <li><strong>Gerçek Zamanlı Analiz:</strong> Kamera görüntüsü üzerinden anlık hastalık tespiti yapabilir.</li>
-                        <li><strong>Oyunlaştırma (Gamification):</strong> Kullanıcıların bitki taradıkça puan kazandığı, seviye atladığı bir sistem geliştirilmektedir.</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>🛠️ Teknolojik Altyapı</h3>
-                    <div class="tech-stack-grid">
-                        <div class="tech-item">Python</div>
-                        <div class="tech-item">YOLOv8</div>
-                        <div class="tech-item">PyTorch</div>
-                        <div class="tech-item">OpenCV</div>
-                    </div>
-                </div>
-            `;
-        }
-        modal.style.display = 'block';
-    }
-        
-
-        function closeProjectDetails() {
-            document.getElementById('projectModal').style.display = 'none';
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>YOLOv8 modeli ile eğitilen sistem, bitki yapraklarındaki hastalıkları %98 doğrulukla tespit eder.</p>
+                    </div>`;
+            }
+            modal.style.display = 'block';
         }
 
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('projectModal')) closeProjectDetails();
-        }
+        function closeProjectDetails() { document.getElementById('projectModal').style.display = 'none'; }
+        window.onclick = function(event) { if (event.target === document.getElementById('projectModal')) closeProjectDetails(); }
 
-        // --- AI Chatbot Logic ---
-        
-        // 👇 API KEY BURAYA 👇
-
+        // --- 3. AI CHATBOT LOGIC ---
         const keyPart1 = 'sk-or-v1-';
         const keyPart2 = 'e143033ee85ee96ed2a6aef64ca547c9c31d71c283f8683a86f2018f8792b6b1';
-        // Not: Yukarıdaki senin eski attığın key, eğer değiştirdiysen yenisini koy.
         const API_KEY = keyPart1 + keyPart2;
 
-        let chatHistory = [{ "role": "system", "content": "You are Batuhan Eren's AI Assistant. Be professional and friendly. Answer questions about his projects, education (Selçuk University, Computer Engineering, 2027 grad), and skills." }];
+        let chatHistory = [{ "role": "system", "content": "Sen Batuhan Eren'in asistanısın. Batuhan; Selçuk Üniversitesi 3. sınıf Bilgisayar Mühendisliği öğrencisidir. Projeleri: Edu-Tech (Amazon Bedrock) ve Bitki Hastalığı Tespiti (YOLOv8). Teknik becerileri: Python, NLP, Computer Vision ve C#." }];
 
         function toggleChat() { 
             const win = document.getElementById('chatWindow');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            const isOpening = (win.style.display !== 'flex');
+            win.style.display = isOpening ? 'flex' : 'none';
+            
+            if (isOpening) {
+                setTimeout(appendOptions, 500); // Açılınca butonları getir
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') { sendMessage(); }
+        }
+
+        function appendOptions() {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (document.querySelector('.chat-options')) return;
+
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'chat-options';
+
+            const options = [
+                { text: "🚀 Projelerin hakkında bilgi ver", query: "Projelerin hakkında bilgi verir misin?" },
+                { text: "💻 Yeteneklerin neler?", query: "Yazılım ve AI yeteneklerin neler?" },
+                { text: "🎓 Eğitim hayatın nasıl?", query: "Eğitim hayatın hakkında bilgi verir misin?" }
+            ];
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'chat-option-btn';
+                btn.innerText = opt.text;
+                btn.onclick = () => sendOption(opt.query);
+                optionsContainer.appendChild(btn);
+            });
+
+            messagesContainer.appendChild(optionsContainer);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendOption(query) {
+            const oldOptions = document.querySelector('.chat-options');
+            if (oldOptions) oldOptions.remove();
+            document.getElementById('userInput').value = query;
+            sendMessage();
         }
 
         async function sendMessage() {
@@ -1050,7 +1109,6 @@
             input.value = '';
             chatHistory.push({"role": "user", "content": text});
 
-            // "Yazıyor..." mesajı ekleyelim
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'msg bot';
             loadingDiv.id = 'loadingMsg';
@@ -1063,34 +1121,29 @@
                     headers: { 
                         "Authorization": `Bearer ${API_KEY}`, 
                         "Content-Type": "application/json",
-                        "HTTP-Referer": "https://batuhaneren.com", // Kendi siten
+                        "HTTP-Referer": "https://batuhaneren.com",
                         "X-Title": "Batuhan Portfolio" 
                     },
                     body: JSON.stringify({ 
-                        // 👇 MODELİ DEĞİŞTİRDİK: Daha stabil olan Llama 3 👇
                         "model": "xiaomi/mimo-v2-flash:free", 
                         "messages": chatHistory 
                     })
                 });
                 
-                // Yükleniyor mesajını sil
                 const loader = document.getElementById('loadingMsg');
                 if(loader) loader.remove();
 
                 const data = await res.json();
-                
                 if (data.choices && data.choices.length > 0) {
                     const reply = data.choices[0].message.content;
                     appendMsg(reply, 'bot');
                     chatHistory.push({"role": "assistant", "content": reply});
                 } else {
-                    console.error("Hata:", data); // Hatayı konsola yazdırır
-                    appendMsg("⚠️ Üzgünüm, şu an cevap veremiyorum. (Sunucu Yoğunluğu)", 'bot');
+                    appendMsg("⚠️ Sunucu şu an yoğun, lütfen tekrar dene.", 'bot');
                 }
             } catch (e) { 
                 const loader = document.getElementById('loadingMsg');
                 if(loader) loader.remove();
-                console.error(e);
                 appendMsg("⚠️ Bağlantı hatası oluştu.", 'bot'); 
             }
         }
@@ -1105,3 +1158,4 @@
     </script>
 </body>
 </html>
+appendOptions();
