@@ -1027,22 +1027,61 @@ function toggleChat() {
                     </div>
                     <div class="project-detail-section">
                         <h3>📋 Proje Özeti</h3>
-                        <p>36 saat süren <strong>Doping Technology AI Hackathon 2025</strong>'te finale kalan bu proje, Amazon Bedrock kullanarak kişiselleştirilmiş YKS hazırlık soruları üretir.</p>
-                    </div>`;
-            } else if (projectId === 'plantdisease') {
-                modalBody.innerHTML = `
-                    <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Plant Disease App">
-                    <div class="project-detail-header">
-                        <div class="project-badge">🍃 Computer Vision</div>
-                        <h2>Bitki Hastalığı Tespit Uygulaması</h2>
+                        <p>Bu proje, 36 saat süren <strong>Doping Technology AI in Education Hackathon 2025</strong> kapsamında geliştirilmiş ve final aşamasına (Top 9) kalma başarısı göstermiştir. YKS'ye hazırlanan öğrencilerin sınav başarı oranlarını artırmayı hedefleyen sistem, <strong>Amazon Bedrock</strong> altyapısı üzerine inşa edilmiştir.</p>
                     </div>
                     <div class="project-detail-section">
-                        <h3>📋 Proje Özeti</h3>
-                        <p>YOLOv8 modeli ile eğitilen sistem, bitki yapraklarındaki hastalıkları %98 doğrulukla tespit eder.</p>
-                    </div>`;
-            }
-            modal.style.display = 'block';
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Akıllı Soru Üretimi:</strong> Claude ve ChatGPT API'lerini kullanarak, kişiselleştirilmiş pratik soruları otomatik olarak üretir.</li>
+                            <li><strong>Oyunlaştırma:</strong> Öğrencilerin motivasyonunu artırmak amacıyla rekabetçi bir modül geliştirilmiştir.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknolojik Altyapı</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">C#</div>
+                            <div class="tech-item">ASP.NET Core</div>
+                            <div class="tech-item">Amazon Bedrock</div>
+                            <div class="tech-item">GenAI</div>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (projectId === 'plantdisease') {
+  modalBody.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Plant Disease App">
+                <div class="project-detail-header">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <div class="project-badge">🍃 Computer Vision</div>
+                        <div class="project-badge" style="background: rgba(250, 204, 21, 0.1); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                    </div>
+                    <h2>Bitki Hastalığı Tespit Uygulaması</h2>
+                </div>
+                <div class="project-detail-section">
+                    <h3>📋 Proje Özeti</h3>
+                    <p>Tarımsal verimliliği artırmak amacıyla geliştirilen bu proje, bitki yapraklarının fotoğraflarını analiz ederek hastalıkları erken evrede tespit eder. Şu an aktif geliştirme sürecinde olan projeye yeni veri setleri ve özellikler eklenmeye devam etmektedir.</p>
+                </div>
+                <div class="project-detail-section">
+                    <h3>✨ Temel Özellikler</h3>
+                    <ul class="feature-list">
+                        <li><strong>Yüksek Doğruluk:</strong> YOLOv8 modeli kullanılarak eğitilen sistem, %98 üzerinde doğruluk oranıyla çalışır.</li>
+                        <li><strong>Gerçek Zamanlı Analiz:</strong> Kamera görüntüsü üzerinden anlık hastalık tespiti yapabilir.</li>
+                        <li><strong>Oyunlaştırma (Gamification):</strong> Kullanıcıların bitki taradıkça puan kazandığı, seviye atladığı bir sistem geliştirilmektedir.</li>
+                    </ul>
+                </div>
+                <div class="project-detail-section">
+                    <h3>🛠️ Teknolojik Altyapı</h3>
+                    <div class="tech-stack-grid">
+                        <div class="tech-item">Python</div>
+                        <div class="tech-item">YOLOv8</div>
+                        <div class="tech-item">PyTorch</div>
+                        <div class="tech-item">OpenCV</div>
+                    </div>
+                </div>
+            `;
         }
+        modal.style.display = 'block';
+    }
 
         function closeProjectDetails() { document.getElementById('projectModal').style.display = 'none'; }
         window.onclick = function(event) { if (event.target === document.getElementById('projectModal')) closeProjectDetails(); }
@@ -1158,4 +1197,3 @@ function toggleChat() {
     </script>
 </body>
 </html>
-appendOptions();
