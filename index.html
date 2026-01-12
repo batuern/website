@@ -384,7 +384,24 @@
             inset: 0;
             background: linear-gradient(to top, rgba(10, 14, 39, 0.9), transparent);
         }
+        .project-thumb {
+    height: 250px; /* Sabit yükseklik, bunu değiştirme */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: transform 0.5s ease; 
+    width: 100%; /* Genişlik kutuyu doldursun */
 
+        }
+        .project-box:hover .project-thumb {
+    /* Resmi %10 büyüt (1.1 = %110) */
+    /* Kutu sabit kalır, sadece resim zoom yapar */
+    transform: scale(1.1); 
+}
+
+        
+
+  
         .project-info { padding: 2rem; position: relative; z-index: 2; }
 
         .project-info h3 {
@@ -876,8 +893,26 @@
                 </div>
             </div>
         </div>
-    </section>
+    
 
+     
+    
+    
+        <div class="project-box" onclick="showProjectDetails('kampuspusulasi')">
+          <div class="project-thumb" style="background-image: url('https://i.hizliresim.com/suj7axl.png'); background-size: contain; background-repeat: no-repeat;"></div>
+          <div class="project-info">
+              <h4>Kampüs Pusulası 🧭</h4>
+              <p>Üniversite ekosistemi için tasarlanmış; doğrulanmış bilgi, etkileşimli haritalar ve sosyal ağları birleştiren hibrit bir platform.</p>
+              <div class="tech-badges">
+                <span class="badge">ASP.NET Core</span>
+                <span class="badge">React Native</span>
+                <span class="badge">PostGIS</span>
+                <span class="badge">AI/NLP</span>
+        </div>
+    </div>
+  <div>
+</div></section>
+ 
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
@@ -916,7 +951,7 @@
         </div>
         <div class="chat-body" id="chatMessages">
             <div class="msg bot">
-                Selam Batuhan! 👋 Ben senin asistanınım. Sana nasıl yardımcı olabilirim? Aşağıdaki konulardan birini seçebilirsin:
+                Selam ben Batuhan'ın Asistanıyım! 👋  Sana nasıl yardımcı olabilirim? Aşağıdaki konulardan birini seçebilirsin:
             </div>
         </div>
         <div class="chat-input-box">
@@ -1080,6 +1115,44 @@ function toggleChat() {
                 </div>
             `;
         }
+        else if (projectId === 'kampuspusulasi') {
+        modalBody.innerHTML = `
+               <img src="https://i.hizliresim.com/suj7axl.png" style="width: 100%; height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Kampus Kapak">
+
+            <div class="project-detail-header">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                    <div class="project-badge">🧭 Kampüs Ekosistemi</div>
+                    <div class="project-badge" style="background: rgba(250, 204, 21, 0.1); color: #facc15;">🚧 Geliştirme Aşamasında</div>
+                </div>
+                <h2>Kampüs Pusulası (Sosyal Harita & Forum)</h2>
+            </div>
+            <div class="project-detail-section">
+                <h3>📋 Proje Özeti</h3>
+                <p>Üniversite adayları ve mevcut öğrenciler için tarafsız, doğrulanmış bilgi ve anlık kampüs etkileşimi sunan "Web-Mobil Hibrit" bir ekosistemdir.</p>
+            </div>
+            <div class="project-detail-section">
+                <h3>✨ Temel Özellikler</h3>
+                <ul class="feature-list">
+                    <li><strong>Detaylı Kampüs Görselleştirme:</strong> PostGIS ve OpenStreetMap destekli etkileşimli fakülte krokileri.</li>
+                    <li><strong>Doğrulanmış Bilgi:</strong> Sadece gerçek öğrencilerin (kayıt evrakıyla doğrulanmış) yorum yapabildiği manipülasyonsuz sistem.</li>
+                    <li><strong>Hibrit Network:</strong> Her üniversiteye özel kapalı sosyal alan ve ulusal açık forum yapısı.</li>
+                    <li><strong>AI Moderasyon:</strong> NLP (Doğal Dil İşleme) kullanarak toksik içeriklerin %90+ başarıyla tespiti.</li>
+                </ul>
+            </div>
+            <div class="project-detail-section">
+                <h3>🛠️ Teknolojik Altyapı</h3>
+                <div class="tech-stack-grid">
+                    <div class="tech-item">ASP.NET Core Web API</div>
+                    <div class="tech-item">React Native & TS</div>
+                    <div class="tech-item">PostgreSQL (PostGIS)</div>
+                    <div class="tech-item">Python (FastAPI & BERT)</div>
+                    <div class="tech-item">SignalR (Real-time)</div>
+                </div>
+            </div> 
+            `;
+        }
+
+
         modal.style.display = 'block';
     }
 
@@ -1091,7 +1164,7 @@ function toggleChat() {
         const keyPart2 = 'e143033ee85ee96ed2a6aef64ca547c9c31d71c283f8683a86f2018f8792b6b1';
         const API_KEY = keyPart1 + keyPart2;
 
-        let chatHistory = [{ "role": "system", "content": "Sen Batuhan Eren'in asistanısın. Batuhan; Selçuk Üniversitesi 3. sınıf Bilgisayar Mühendisliği öğrencisidir. Projeleri: Edu-Tech (Amazon Bedrock) ve Bitki Hastalığı Tespiti (YOLOv8). Teknik becerileri: Python, NLP, Computer Vision ve C#." }];
+        let chatHistory = [{ "role": "system", "content": "Sen Batuhan Eren'in asistanısın. Batuhan; Selçuk Üniversitesi 3. sınıf Bilgisayar Mühendisliği öğrencisidir. Projeleri: Edu-Tech (Amazon Bedrock) ve Bitki Hastalığı Tespiti (YOLOv8). Teknik becerileri: Python, NLP, Computer Vision ve C#.  Batuhan Eren'in asistanısın. Batuhan şu an Kampüs Pusulası adında, üniversite öğrencileri için etkileşimli harita (PostGIS), doğrulanmış yorum sistemi ve AI destekli moderasyon (Python NLP) içeren kapsamlı bir platform geliştiriyor." }];
 
         function toggleChat() { 
             const win = document.getElementById('chatWindow');
