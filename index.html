@@ -3,139 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batuhan Eren | Portfolio</title>
+    <meta name="description" content="Batuhan Eren — Software & AI Engineer. Portfolio of AI, full-stack, and hackathon projects.">
+    <meta name="theme-color" content="#050816">
+    <title>Batuhan Eren | Software & AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMEL AYARLAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         :root {
-            --primary: #10b981;       /* Emerald Green */
+            --primary: #10b981;
             --primary-dark: #059669;
-            --secondary: #8b5cf6;     /* Purple */
+            --primary-light: #34d399;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --accent-blue: #3b82f6;
             --dark: #0a0e27;
-            --darker: #050816;        /* Deep Space Black */
+            --darker: #050816;
+            --surface: rgba(16, 185, 129, 0.04);
+            --border: rgba(16, 185, 129, 0.12);
+            --border-strong: rgba(16, 185, 129, 0.3);
             --text: #e5e7eb;
+            --text-bright: #f9fafb;
             --text-dim: #9ca3af;
+            --text-faint: #6b7280;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
+            --radius: 16px;
+            --radius-lg: 24px;
         }
-        
-        body { 
+
+        html { scroll-behavior: smooth; }
+
+        body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--darker);
             color: var(--text);
             overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animated Grid Background */
+        /* Animated grid */
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            animation: gridMove 20s linear infinite;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -2;
+            animation: gridMove 30s linear infinite;
+            -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+            mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
         }
 
         @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
         }
 
-        /* Glowing Orbs */
-        body::after {
-            content: '';
+        /* Floating ambient orbs */
+        .ambient-orb {
             position: fixed;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent);
-            top: -250px; right: -250px;
             border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
             z-index: -1;
-            animation: float 8s ease-in-out infinite;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-30px, 30px); }
+        .orb-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.22), transparent 70%);
+            top: -180px; right: -180px;
+            animation: float-1 12s ease-in-out infinite;
         }
+        .orb-2 {
+            width: 460px; height: 460px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent 70%);
+            bottom: -160px; left: -160px;
+            animation: float-2 14s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.16), transparent 70%);
+            top: 45%; left: 55%;
+            animation: float-3 16s ease-in-out infinite;
+        }
+        @keyframes float-1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-40px, 50px); } }
+        @keyframes float-2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px, -30px); } }
+        @keyframes float-3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-30px) scale(1.1); } }
 
-        /* Navigation */
+        /* NAV */
         nav {
             position: fixed;
-            top: 0; width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(5, 8, 22, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 5%;
+            background: rgba(5, 8, 22, 0.7);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 1.35rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            letter-spacing: -0.02em;
+            background: var(--gradient-primary);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             cursor: pointer;
+            animation: gradient-shift 8s ease infinite;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             transition: transform 0.3s;
         }
+        .logo::before {
+            content: '◆';
+            font-size: 0.9rem;
+            -webkit-text-fill-color: var(--primary);
+            color: var(--primary);
+            filter: drop-shadow(0 0 8px var(--primary));
+        }
+        .logo:hover { transform: scale(1.04); }
 
-        .logo:hover { transform: scale(1.05); }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
+            gap: 0.25rem;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
-        nav a {
+        .nav-link {
             color: var(--text-dim);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-weight: 500;
+            font-size: 0.9rem;
             position: relative;
-            transition: color 0.3s;
-            cursor: pointer; /* Tıklanabilir olduğu belli olsun */
+            padding: 0.5rem 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
         }
-
-        nav a::after {
+        .nav-link:hover {
+            color: var(--text-bright);
+            background: rgba(16, 185, 129, 0.07);
+        }
+        .nav-link.active-link {
+            color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .nav-link.active-link::after {
             content: '';
             position: absolute;
-            bottom: -5px; left: 0;
-            width: 0; height: 2px;
+            bottom: -2px; left: 50%;
+            transform: translateX(-50%);
+            width: 22px; height: 2px;
             background: var(--primary);
-            transition: width 0.3s;
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--primary);
         }
 
-        nav a:hover, nav a.active-link { color: var(--primary); }
-        nav a.active-link::after { width: 100%; }
+        .nav-chat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+            font-family: inherit;
+        }
+        .nav-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+        }
 
-        /* Sections */
+        /* SECTIONS */
         section {
-            display: none; /* Sayfalar arası geçiş için gizli başlar */
+            display: none;
             padding: 140px 5% 80px;
             max-width: 1400px;
             margin: 0 auto;
             min-height: 100vh;
-            animation: fadeIn 0.6s ease;
+            animation: fadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
-
-        section.active { display: block; } /* Sadece aktif olan görünür */
-        section#home.active { display: grid; } /* Home sayfası Grid yapısında */
+        section.active { display: block; }
+        section#home.active { display: grid; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(24px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Home Section */
+        /* SECTION HEADER */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-eyebrow {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border-strong);
+            border-radius: 50px;
+            background: rgba(16, 185, 129, 0.07);
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 60%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+        }
+        .section-subtitle {
+            margin: 1rem auto 0;
+            color: var(--text-dim);
+            font-size: 1.02rem;
+            max-width: 620px;
+            line-height: 1.7;
+        }
+
+        /* HOME */
         #home {
             grid-template-columns: 1.3fr 1fr;
             gap: 5rem;
@@ -146,16 +268,16 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 0.6rem 1.2rem;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid var(--border-strong);
+            padding: 0.5rem 1.1rem;
             border-radius: 50px;
             color: var(--primary);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
             font-weight: 600;
+            backdrop-filter: blur(10px);
         }
-
         .status-badge::before {
             content: '';
             width: 8px; height: 8px;
@@ -163,349 +285,576 @@
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            50% { opacity: 0.7; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
         }
 
         .hero-content h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.6rem);
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
+            color: var(--text-bright);
         }
-
         .hero-content h1 .name {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: inline-block;
+            animation: gradient-shift 6s ease infinite;
         }
 
         .hero-content h2 {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             color: var(--text);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-            left: -5px; 
+            font-weight: 600;
+            margin-bottom: 1.4rem;
+        }
+        .hero-content h2 .accent {
+            color: var(--primary);
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1.08rem;
             color: var(--text-dim);
             line-height: 1.8;
-            max-width: 600px;
-            margin-bottom: 2.5rem;
+            max-width: 580px;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .hero-tag {
+            font-size: 0.8rem;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 50px;
+            color: var(--text-dim);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .hero-tag:hover {
+            border-color: var(--border-strong);
+            color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .cta-group {
             display: flex;
             gap: 1rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 0.9rem 1.8rem;
             border-radius: 12px;
-            font-weight: 700;
+            font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
         }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(16, 185, 129, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* --- PROFİL RESMİ DÜZENLEMESİ (Yuvarlak ve Küçültülmüş) --- */
-        .profile-box {
-            position: relative;
-            width: 320px; /* Boyut küçültüldü */
-            height: 320px;
-            margin: 0 auto;
-        }
-
-        /* Arkadaki Hareketli Efekt - Yuvarlak */
-        .profile-box::before {
-            content: '';
-            position: absolute;
-            inset: -15px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%; /* Tam Yuvarlak */
-            animation: spin 10s linear infinite; /* Dönme efekti */
-            opacity: 0.3;
-            z-index: -1;
-            filter: blur(10px);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Resim - Tam Yuvarlak */
-        .profile-img {
-            width: 100%; height: 100%;
-            border-radius: 50%; /* Tam Yuvarlak */
-            object-fit: cover;
-            border: 3px solid rgba(16, 185, 129, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Social Icons */
-        .social-grid {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        .social-grid a {
-            color: var(--text-dim);
-            font-size: 1.8rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            font-weight: 800;
-        }
-        .social-grid a:hover {
-            color: var(--primary);
-            transform: translateY(-5px);
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-        }
-
-        /* Skills Section */
-        #skills h2, #projects h2 {
-            font-size: 3rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 4rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .skills-wrapper {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            background: rgba(16, 185, 129, 0.03);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-        }
-
-        .skill-block { margin-bottom: 2rem; }
-
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
-
-        .skill-name { color: var(--text); }
-        .skill-percent { color: var(--primary); }
-
-        .skill-track {
-            height: 10px;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            width: 0;
-            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-        }
-
-        /* Projects Section */
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .project-box {
-            background: rgba(16, 185, 129, 0.03);
-            border: 1px solid rgba(16, 185, 129, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s;
-            position: relative;
-        }
-
-        .project-box:hover {
-            transform: translateY(-10px);
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2);
-        }
-
-        .project-thumb {
-            height: 250px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .project-thumb::after {
+        .btn-primary::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(10, 14, 39, 0.9), transparent);
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.4s;
         }
-        .project-thumb {
-    height: 250px; /* Sabit yükseklik, bunu değiştirme */
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    transition: transform 0.5s ease; 
-    width: 100%; /* Genişlik kutuyu doldursun */
-
+        .btn-primary > * { position: relative; z-index: 1; }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.45);
         }
-        .project-box:hover .project-thumb {
-    /* Resmi %10 büyüt (1.1 = %110) */
-    /* Kutu sabit kalır, sadece resim zoom yapar */
-    transform: scale(1.1); 
-}
+        .btn-primary:hover::before { opacity: 1; }
 
-        
+        .btn-secondary {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid var(--border-strong);
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+        }
 
-  
-        .project-info { padding: 2rem; position: relative; z-index: 2; }
+        /* PROFILE */
+        .profile-box {
+            position: relative;
+            width: clamp(260px, 30vw, 340px);
+            aspect-ratio: 1;
+            margin: 0 auto;
+        }
+        .profile-box::before {
+            content: '';
+            position: absolute;
+            inset: -22px;
+            background: conic-gradient(from 0deg, var(--primary), var(--accent), var(--secondary), var(--primary));
+            border-radius: 50%;
+            animation: spin 12s linear infinite;
+            opacity: 0.55;
+            z-index: -1;
+            filter: blur(18px);
+        }
+        .profile-box::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: conic-gradient(from 90deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            border-radius: 50%;
+            animation: spin 9s linear infinite;
+            z-index: -1;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .project-info h3 {
-            font-size: 1.5rem;
-            color: var(--text);
-            margin-bottom: 1rem;
+        .profile-img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--darker);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 60px rgba(16, 185, 129, 0.18);
+        }
+
+        /* SOCIAL */
+        .social-grid {
+            display: flex;
+            gap: 0.7rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .social-grid a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--text-dim);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0.55rem 0.95rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .social-grid a:hover {
+            color: var(--primary);
+            border-color: var(--border-strong);
+            background: rgba(16, 185, 129, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+        }
+
+        /* Hero social grid — plain text style (legacy look) */
+        #home .social-grid { gap: 1.5rem; }
+        #home .social-grid a {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 1.8rem;
             font-weight: 800;
+            color: var(--text-dim);
+            border-radius: 0;
+        }
+        #home .social-grid a:hover {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            transform: translateY(-5px);
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            box-shadow: none;
         }
 
-        .project-info p {
+        /* EDUCATION */
+        .edu-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            position: relative;
+            border-left: 3px solid var(--primary);
+            max-width: 900px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18), transparent 70%);
+            pointer-events: none;
+        }
+        .edu-card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(16, 185, 129, 0.15);
+        }
+        .edu-icon {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        .edu-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.65rem;
+            color: var(--text-bright);
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .edu-card h4 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .edu-card p {
             color: var(--text-dim);
             line-height: 1.7;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
         }
-
-        .tech-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-
-        .badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
+        .edu-meta {
+            display: flex; flex-wrap: wrap; gap: 0.6rem;
+            margin-top: 1.5rem;
+        }
+        .edu-pill {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid var(--border-strong);
+            border-radius: 50px;
             font-size: 0.85rem;
             color: var(--primary);
             font-weight: 600;
         }
 
-        /* Modal */
+        /* SKILLS */
+        .skills-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem 4rem;
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            backdrop-filter: blur(10px);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .skills-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(800px circle at 50% 0%, rgba(16, 185, 129, 0.07), transparent 60%);
+            border-radius: var(--radius-lg);
+            pointer-events: none;
+        }
+        .skill-block { position: relative; margin-bottom: 0.5rem; }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.55rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .skill-name { color: var(--text); }
+        .skill-percent { color: var(--primary); font-variant-numeric: tabular-nums; }
+        .skill-track {
+            height: 8px;
+            background: rgba(16, 185, 129, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            background-size: 200% 100%;
+            border-radius: 8px;
+            width: 0;
+            transition: width 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+            animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* PROJECTS */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .project-box {
+            position: relative;
+            background: rgba(10, 14, 39, 0.5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .project-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .project-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 60px rgba(16, 185, 129, 0.18);
+        }
+        .project-box:hover::before { opacity: 1; }
+
+        .project-thumb-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+        .project-thumb-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 14, 39, 0.95), transparent 55%);
+            pointer-events: none;
+        }
+        .project-thumb {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease;
+        }
+        .project-box:hover .project-thumb {
+            transform: scale(1.08);
+        }
+
+        .project-category-badge {
+            position: absolute;
+            top: 1rem; left: 1rem;
+            z-index: 2;
+            background: rgba(5, 8, 22, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-strong);
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.04em;
+        }
+
+        .project-status-badge {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            z-index: 2;
+            background: rgba(250, 204, 21, 0.18);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            padding: 0.35rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #facc15;
+        }
+
+        .project-info {
+            padding: 1.6rem 1.6rem 1.4rem;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .project-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-bright);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .project-info p {
+            color: var(--text-dim);
+            line-height: 1.65;
+            margin-bottom: 1.1rem;
+            font-size: 0.94rem;
+            flex: 1;
+        }
+
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.1rem;
+        }
+        .badge {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 0.3rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.74rem;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .project-box:hover .badge {
+            background: rgba(16, 185, 129, 0.13);
+        }
+
+        .project-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-top: auto;
+            transition: gap 0.3s;
+        }
+        .project-cta::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+        .project-box:hover .project-cta { gap: 0.7rem; }
+        .project-box:hover .project-cta::after { transform: translateX(4px); }
+
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
             z-index: 2000;
             animation: fadeIn 0.3s ease;
+            padding: 2rem 1rem;
+            overflow-y: auto;
         }
-
         .modal-box {
             position: relative;
-            background: rgba(10, 14, 39, 0.95);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            margin: 3% auto;
-            padding: 3rem;
-            width: 90%;
+            background: linear-gradient(180deg, rgba(10, 14, 39, 0.98), rgba(5, 8, 22, 0.98));
+            border: 1px solid var(--border-strong);
+            margin: 0 auto;
+            padding: 2.5rem;
+            width: 100%;
             max-width: 900px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             animation: slideUp 0.4s ease;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
         }
-
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .modal-close {
             position: absolute;
-            top: 2rem; right: 2rem;
-            font-size: 2rem;
+            top: 1.25rem; right: 1.25rem;
+            font-size: 1.4rem;
             color: var(--text-dim);
             cursor: pointer;
             transition: all 0.3s;
-            width: 40px; height: 40px;
+            width: 38px; height: 38px;
             display: flex; align-items: center; justify-content: center;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            z-index: 5;
         }
-
         .modal-close:hover {
             color: var(--primary);
             transform: rotate(90deg);
+            border-color: var(--border-strong);
         }
 
-        /* Project Details Inside Modal */
         .project-detail-header h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2.3rem);
+            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
         .project-badge {
             display: inline-block;
-            background: rgba(139, 92, 246, 0.2);
+            background: rgba(139, 92, 246, 0.15);
             color: var(--secondary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
             margin-bottom: 1rem;
             font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
         }
+        .project-detail-section { margin-top: 1.5rem; }
         .project-detail-section h3 {
             color: var(--primary);
-            margin: 1.5rem 0 1rem;
-            font-size: 1.4rem;
+            margin: 0 0 0.75rem;
+            font-size: 1.18rem;
+            font-weight: 700;
         }
-        .project-detail-section p, .project-detail-section li {
+        .project-detail-section p,
+        .project-detail-section li {
             color: var(--text-dim);
-            font-size: 1.05rem;
+            font-size: 1rem;
+            line-height: 1.7;
         }
         .feature-list { list-style: none; padding: 0; }
         .feature-list li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.7rem;
             padding-left: 1.5rem;
             position: relative;
         }
@@ -515,224 +864,380 @@
             color: var(--primary);
         }
         .tech-stack-grid {
-            display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem;
+            display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.75rem;
         }
         .tech-item {
-            background: rgba(255,255,255,0.05);
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
             font-weight: 600;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .tech-item:hover {
+            border-color: var(--border-strong);
+            color: var(--primary);
         }
 
-        /* Chatbot */
+        /* CHAT */
         .chat-button {
             position: fixed;
-            bottom: 30px; right: 30px;
+            bottom: 28px; right: 28px;
             width: 60px; height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: white; font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.45);
             transition: all 0.3s;
             z-index: 1000;
+            border: 2px solid rgba(255,255,255,0.15);
         }
-
-        .chat-button:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5); }
+        .chat-button::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            opacity: 0.4;
+            z-index: -1;
+            animation: pulse-ring 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.45; }
+            50% { transform: scale(1.18); opacity: 0; }
+        }
+        .chat-button:hover { transform: scale(1.08); }
 
         .chat-panel {
             display: none;
             position: fixed;
-            bottom: 100px; right: 30px;
-            width: 380px; height: 550px;
-            background: rgba(10, 14, 39, 0.95);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            bottom: 100px; right: 28px;
+            width: 380px; height: 560px;
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border: 1px solid var(--border-strong);
             border-radius: 20px;
             z-index: 1001;
             flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.15);
+            animation: slideUp 0.35s ease;
+            overflow: hidden;
         }
 
         .chat-top {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 1.2rem;
-            color: white; font-weight: 700;
-            display: flex; justify-content: space-between; align-items: center;
-            border-radius: 20px 20px 0 0;
+            padding: 0.95rem 1.1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
+        .chat-top-info { display: flex; align-items: center; gap: 0.65rem; }
+        .chat-avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .chat-top-name { font-size: 0.95rem; font-weight: 700; line-height: 1.2; }
+        .chat-top-status {
+            font-size: 0.72rem;
+            font-weight: 500;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 2px;
+        }
+        .chat-top-status::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: #6ee7b7;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #6ee7b7;
+        }
+        .chat-close-x {
+            cursor: pointer;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .chat-close-x:hover { background: rgba(255,255,255,0.15); }
 
         .chat-body {
-            flex: 1; padding: 1.5rem;
+            flex: 1; padding: 1.2rem;
             overflow-y: auto;
-            display: flex; flex-direction: column; gap: 1rem;
+            display: flex; flex-direction: column; gap: 0.7rem;
         }
+        .chat-body::-webkit-scrollbar { width: 6px; }
+        .chat-body::-webkit-scrollbar-track { background: transparent; }
+        .chat-body::-webkit-scrollbar-thumb { background: rgba(16,185,129,0.3); border-radius: 3px; }
 
         .msg {
-            max-width: 80%; padding: 0.9rem;
-            border-radius: 12px; font-size: 0.95rem; line-height: 1.5;
+            max-width: 85%;
+            padding: 0.7rem 0.95rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: msg-pop 0.3s ease;
+            word-wrap: break-word;
+        }
+        @keyframes msg-pop {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg.bot {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+        .msg.user {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
         }
 
-        .msg.bot { background: rgba(16, 185, 129, 0.1); color: var(--text); align-self: flex-start; }
-        .msg.user { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; align-self: flex-end; }
+        /* Typing dots */
+        .typing-dots {
+            display: inline-flex; gap: 4px; padding: 0.2rem 0;
+        }
+        .typing-dots span {
+            width: 7px; height: 7px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typing 1.2s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
 
         .chat-input-box {
-            padding: 1rem;
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            padding: 0.85rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.12);
             display: flex; gap: 0.5rem;
-            background: rgba(10, 14, 39, 0.8);
-            border-radius: 0 0 20px 20px;
+            background: rgba(5, 8, 22, 0.7);
         }
-
         .chat-input-box input {
             flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 0.9rem; border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+            padding: 0.75rem 0.95rem;
+            border-radius: 12px;
             color: white; outline: none;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.2s;
         }
-
+        .chat-input-box input:focus {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+        }
         .chat-input-box button {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none; color: white;
-            padding: 0.9rem 1.5rem; border-radius: 10px;
+            padding: 0 1.1rem; border-radius: 12px;
             cursor: pointer; font-weight: 700;
             transition: all 0.3s;
+            font-size: 0.9rem;
+            min-width: 64px;
+            font-family: inherit;
+        }
+        .chat-input-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
         }
 
-        .chat-input-box button:hover { transform: translateY(-2px); }
+        /* Chat options */
+        .chat-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 0.25rem 0;
+        }
+        .chat-option-btn {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid var(--border-strong);
+            color: var(--primary);
+            padding: 0.65rem 0.9rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-align: left;
+            transition: all 0.25s ease;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .chat-option-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(6px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+            border-color: transparent;
+        }
 
-
-        /* Footer */
+        /* FOOTER */
         footer {
-            background: rgba(10, 14, 39, 0.8);
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            background: rgba(10, 14, 39, 0.6);
+            border-top: 1px solid var(--border);
             padding: 4rem 5% 2rem;
+            margin-top: 4rem;
+            backdrop-filter: blur(20px);
+            position: relative;
         }
-
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 220px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
         .footer-grid {
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+            display: grid; grid-template-columns: 1.6fr 1fr 1fr;
             gap: 3rem; max-width: 1400px; margin: 0 auto 3rem;
         }
-
-        .footer-brand h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800; }
-        .footer-brand p { color: var(--text-dim); margin-bottom: 1.5rem; }
-        .footer-links h4 { color: var(--text); margin-bottom: 1rem; font-weight: 700; }
-        .footer-links a { color: var(--text-dim); text-decoration: none; display: block; padding: 0.5rem 0; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--primary); }
-        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(16, 185, 129, 0.1); color: var(--text-dim); }
-
-        /* --- MOBİL UYUMLULUK AYARLARI (RESPONSIVE) --- */
-        @media (max-width: 768px) {
-            
-            /* 1. Navigasyon (Menü) */
-            nav {
-                flex-direction: column; /* Alt alta al */
-                padding: 1rem;
-                background: rgba(5, 8, 22, 0.95); /* Arkası daha koyu olsun */
-            }
-            
-            nav ul {
-                gap: 1rem; /* Linklerin arasını sıkılaştır */
-                margin-top: 10px;
-                flex-wrap: wrap; /* Sığmazsa alt satıra geçsin */
-                justify-content: center;
-            }
-
-            nav a { font-size: 0.85rem; } /* Yazıları biraz küçült */
-
-            /* 2. Genel Sayfa Düzeni */
-            section {
-                padding: 100px 5% 40px; /* Üst boşluğu azalt */
-            }
-
-            /* 3. Giriş (Home) Kısmı */
-            #home {
-                grid-template-columns: 1fr; /* Yan yana değil, alt alta olsun */
-                text-align: center; /* Her şeyi ortala */
-                gap: 3rem;
-            }
-
-            .hero-content h1 { font-size: 2.5rem; } /* Dev başlığı küçült */
-            .hero-content h2 { font-size: 1.5rem; }
-            .cta-group { justify-content: center; } /* Butonları ortala */
-            .social-grid { justify-content: center; } /* İkonları ortala */
-
-            /* Profil Resmi */
-            .profile-box {
-                width: 250px; /* Resmi mobilde küçült */
-                height: 250px;
-                order: -1; /* Resmi yazının üstüne al (İsteğe bağlı) */
-                margin-bottom: 1rem;
-            }
-
-            /* 4. Yetenekler (Skills) */
-            .skills-wrapper {
-                grid-template-columns: 1fr; /* Tek sütuna düşür */
-                padding: 1.5rem;
-            }
-
-            /* 5. Eğitim (Education) Kartı */
-            .edu-card > div {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
-            }
-            .edu-card div[style*="text-align: right"] {
-                text-align: center !important; /* Tarih kısmını ortala */
-                width: 100%;
-            }
-
-            /* 6. Chatbot */
-            .chat-panel {
-                width: 90%; /* Ekrana sığsın */
-                right: 5%;
-                bottom: 80px;
-                height: 60vh; /* Çok uzun olmasın */
-            }
-            
-            /* 7. Projeler Modal */
-            .modal-content {
-                width: 95%;
-                margin: 20px auto;
-                padding: 1.5rem;
-            }
+        .footer-brand h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
         }
-        /* Chatbot Seçenek Butonları */
-.chat-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 12px 0;
-    padding: 0 5px;
-}
+        .footer-brand p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            max-width: 360px;
+            line-height: 1.7;
+        }
+        .footer-links h4 {
+            color: var(--text-bright);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.35rem 0;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 0.92rem;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-faint);
+            font-size: 0.85rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .footer-bottom span { color: var(--primary); font-weight: 600; }
 
-.chat-option-btn {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    padding: 10px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    text-align: left;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-family: inherit;
-}
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .skills-wrapper { grid-template-columns: 1fr; gap: 1.4rem; padding: 2rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+        }
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.75rem 4%;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            nav ul {
+                width: 100%;
+                gap: 0.2rem;
+                justify-content: center;
+                order: 2;
+            }
+            .nav-link { font-size: 0.8rem; padding: 0.4rem 0.7rem; }
+            .nav-chat-btn { font-size: 0.78rem; padding: 0.45rem 0.8rem; }
 
-.chat-option-btn:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateX(8px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-}
+            section { padding: 130px 5% 60px; }
+
+            #home {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2.5rem;
+            }
+            .hero-content .hero-tags,
+            .cta-group,
+            .social-grid { justify-content: center; }
+            .hero-content p { margin-left: auto; margin-right: auto; }
+            .profile-box { order: -1; }
+
+            .projects-container { grid-template-columns: 1fr; gap: 1.25rem; }
+            .project-thumb-wrap { height: 200px; }
+
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand p { margin-left: auto; margin-right: auto; }
+            .footer-brand .social-grid { justify-content: center; }
+            .footer-links a:hover { transform: none; }
+
+            .chat-panel {
+                width: calc(100% - 24px);
+                right: 12px; left: 12px;
+                bottom: 90px;
+                height: 70vh;
+            }
+            .chat-button { bottom: 20px; right: 20px; width: 54px; height: 54px; }
+
+            .modal { padding: 1rem 0.5rem; }
+            .modal-box { padding: 1.5rem; border-radius: 16px; }
+
+            .edu-card { padding: 2rem; }
+            .section-header { margin-bottom: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content h2 { font-size: 1.1rem; }
+            .btn { padding: 0.8rem 1.3rem; font-size: 0.88rem; }
+            .skills-wrapper { padding: 1.5rem; }
+            .edu-card { padding: 1.5rem; }
+            .project-info { padding: 1.25rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.1s !important; }
+            .ambient-orb, body::before { animation: none !important; }
+        }
     </style>
 </head>
 <body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
     <nav>
         <div class="logo" onclick="switchSection('home')">BATUHAN.DEV</div>
         <ul>
@@ -740,7 +1245,7 @@
             <li><a onclick="switchSection('education')" class="nav-link" id="nav-education">Education</a></li>
             <li><a onclick="switchSection('projects')" class="nav-link" id="nav-projects">Projects</a></li>
             <li><a onclick="switchSection('skills')" class="nav-link" id="nav-skills">Skills</a></li>
-            <li><a onclick="toggleChat()" style="cursor: pointer;">💬</a></li>
+            <li><button class="nav-chat-btn" onclick="toggleChat()">💬 Chat</button></li>
         </ul>
     </nav>
 
@@ -748,15 +1253,22 @@
         <div class="hero-content">
             <div class="status-badge">Available for Opportunities</div>
             <h1>Hi, I'm <span class="name">Batuhan Eren</span></h1>
-            <h2>Software & AI Engineer</h2>
-            <p>I build intelligent solutions that bridge the gap between human needs and technological possibilities. Passionate about AI, machine learning, and creating impactful software.</p>
+            <h2>Software &amp; <span class="accent">AI Engineer</span></h2>
+            <p>I build intelligent solutions that bridge the gap between human needs and technological possibilities. Passionate about AI, machine learning, and crafting impactful software products.</p>
+            <div class="hero-tags">
+                <span class="hero-tag">🐍 Python</span>
+                <span class="hero-tag">🤖 AI / ML</span>
+                <span class="hero-tag">👁 Computer Vision</span>
+                <span class="hero-tag">⚡ ASP.NET Core</span>
+                <span class="hero-tag">📱 React Native</span>
+            </div>
             <div class="cta-group">
-                <a onclick="switchSection('projects')" class="btn btn-primary">View Projects →</a>
+                <a onclick="switchSection('projects')" class="btn btn-primary"><span>View Projects →</span></a>
                 <a onclick="toggleChat()" class="btn btn-secondary">Let's Talk</a>
             </div>
             <div class="social-grid">
-                <a href="https://github.com/batuern" title="GitHub">GitHub</a>
-                <a href="https://linkedin.com/in/batuhan-eren-610975292/" title="LinkedIn">LinkedIn</a>
+                <a href="https://github.com/batuern" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+                <a href="https://linkedin.com/in/batuhan-eren-610975292/" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
                 <a href="mailto:batuhneren@gmail.com" title="Email">EMail ✉</a>
             </div>
         </div>
@@ -766,42 +1278,38 @@
     </section>
 
     <section id="education">
-    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">Education</h2>
-    <div style="background: rgba(16, 185, 129, 0.03); border: 1px solid rgba(16, 185, 129, 0.1); padding: 2.5rem; border-radius: 20px; position: relative; border-left: 4px solid var(--primary); max-width: 900px; margin: 0 auto;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-            <div>
-                <h3 style="font-size: 1.8rem; color: var(--text); margin-bottom: 0.5rem;">Selçuk University</h3>
-                <h4 style="font-size: 1.2rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem;">B.S. in Computer Engineering</h4>
-                <p style="color: var(--text-dim); font-size: 1.05rem; line-height: 1.6;">
-                    Focusing on software development, artificial intelligence, and system architecture. 
-                    Actively enhancing my skills by supporting theoretical knowledge with practical, hands-on projects.
-                </p>
-            </div>
-            <div style="text-align: right;">
-                <span class="status-badge" style="margin-bottom: 0; background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; border: 1px solid var(--primary); font-size: 0.9rem; font-weight: 600;">
-                    2023 - 2027 (Expected)
-                </span>
-                <div style="margin-top: 10px; color: var(--text-dim); font-style: italic; font-size: 0.9rem;">
-                    Currently Enrolled 🚧
-                </div>
+        <div class="section-header">
+            <span class="section-eyebrow">Background</span>
+            <h2 class="section-title">Education</h2>
+            <p class="section-subtitle">Building strong foundations in software engineering and AI through academic study and hands-on projects.</p>
+        </div>
+        <div class="edu-card">
+            <div class="edu-icon">🎓</div>
+            <h3>Selçuk University</h3>
+            <h4>B.S. in Computer Engineering</h4>
+            <p>Focusing on software development, artificial intelligence, and system architecture. Actively enhancing my skills by supporting theoretical knowledge with practical, hands-on projects.</p>
+            <div class="edu-meta">
+                <span class="edu-pill">📅 2023 – 2027 (Expected)</span>
+                <span class="edu-pill">🚧 Currently Enrolled</span>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
- <section id="skills">
-        <h2>Skills & Expertise</h2>
-    <div class="skills-wrapper">
-            
+    <section id="skills">
+        <div class="section-header">
+            <span class="section-eyebrow">Capabilities</span>
+            <h2 class="section-title">Skills &amp; Expertise</h2>
+            <p class="section-subtitle">A versatile stack spanning AI/ML, software engineering, and full-stack web/mobile development.</p>
+        </div>
+        <div class="skills-wrapper">
             <div>
                 <div class="skill-block">
                     <div class="skill-info">
-                        <span class="skill-name">Python & NLP (BERT, TF-IDF)</span>
+                        <span class="skill-name">Python &amp; NLP (BERT, TF-IDF)</span>
                         <span class="skill-percent">90%</span>
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="90"></div></div>
                 </div>
-                
                 <div class="skill-block">
                     <div class="skill-info">
                         <span class="skill-name">Computer Vision (OpenCV)</span>
@@ -809,15 +1317,13 @@
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="85"></div></div>
                 </div>
-
                 <div class="skill-block">
                     <div class="skill-info">
-                        <span class="skill-name">C# & Design Patterns</span>
+                        <span class="skill-name">C# &amp; Design Patterns</span>
                         <span class="skill-percent">80%</span>
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="80"></div></div>
                 </div>
-
                 <div class="skill-block">
                     <div class="skill-info">
                         <span class="skill-name">Embedded Systems (PIC)</span>
@@ -826,7 +1332,6 @@
                     <div class="skill-track"><div class="skill-fill" data-width="65"></div></div>
                 </div>
             </div>
-
             <div>
                 <div class="skill-block">
                     <div class="skill-info">
@@ -835,7 +1340,6 @@
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="85"></div></div>
                 </div>
-
                 <div class="skill-block">
                     <div class="skill-info">
                         <span class="skill-name">Database Programming (Oracle)</span>
@@ -843,7 +1347,6 @@
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="75"></div></div>
                 </div>
-
                 <div class="skill-block">
                     <div class="skill-info">
                         <span class="skill-name">Frontend (HTML5, CSS3, JS)</span>
@@ -851,7 +1354,6 @@
                     </div>
                     <div class="skill-track"><div class="skill-fill" data-width="95"></div></div>
                 </div>
-
                 <div class="skill-block">
                     <div class="skill-info">
                         <span class="skill-name">Game Development</span>
@@ -860,109 +1362,214 @@
                     <div class="skill-track"><div class="skill-fill" data-width="40"></div></div>
                 </div>
             </div>
-            
-        <div>
-       
+        </div>
     </section>
 
     <section id="projects">
-        <h2>Featured Projects</h2>
+        <div class="section-header">
+            <span class="section-eyebrow">Portfolio</span>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">A selection of AI, full-stack, and hackathon projects I'm proud of.</p>
+        </div>
         <div class="projects-container">
+
             <div class="project-box" onclick="showProjectDetails('edutech')">
-                <div class="project-thumb" style="background-image: url('https://i.hizliresim.com/dj12aeh.jpeg');"></div>
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">⭐ Hackathon · AI</span>
+                    <div class="project-thumb" style="background-image: url('https://i.hizliresim.com/dj12aeh.jpeg');"></div>
+                </div>
                 <div class="project-info">
-                    <h3>Edu-Tech AI Hackathon ⭐</h3>
-                    <p>36 saatlik Doping Technology AI in Education Hackathon 2025'te Top 9 finale kalan proje.</p>
+                    <h3>Edu-Tech AI Hackathon</h3>
+                    <p>36 saatlik Doping Technology AI in Education Hackathon 2025'te Top 9 finale kalan, GenAI tabanlı kişiselleştirilmiş eğitim platformu.</p>
                     <div class="tech-badges">
                         <span class="badge">C#</span>
                         <span class="badge">ASP.NET Core</span>
                         <span class="badge">Amazon Bedrock</span>
                         <span class="badge">GenAI</span>
                     </div>
+                    <span class="project-cta">View Details</span>
                 </div>
             </div>
 
             <div class="project-box" onclick="showProjectDetails('plantdisease')">
-                <div class="project-thumb" style="background-image: url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop');"></div>
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">🍃 Computer Vision</span>
+                    <span class="project-status-badge">🚧 In Progress</span>
+                    <div class="project-thumb" style="background-image: url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1200&auto=format&fit=crop');"></div>
+                </div>
                 <div class="project-info">
-                    <h3>Bitki Hastalığı Tespiti 🍃</h3>
+                    <h3>Bitki Hastalığı Tespiti</h3>
                     <p>Derin öğrenme ve görüntü işleme kullanarak bitki yapraklarındaki hastalıkları %98 doğrulukla tespit eden yapay zeka uygulaması.</p>
                     <div class="tech-badges">
                         <span class="badge">Python</span>
                         <span class="badge">YOLOv8</span>
                         <span class="badge">PyTorch</span>
+                        <span class="badge">OpenCV</span>
                     </div>
+                    <span class="project-cta">View Details</span>
                 </div>
             </div>
-        </div>
-    
 
-     
-    
-    
-        <div class="project-box" onclick="showProjectDetails('kampuspusulasi')">
-          <div class="project-thumb" style="background-image: url('https://i.hizliresim.com/suj7axl.png'); background-size: contain; background-repeat: no-repeat;"></div>
-          <div class="project-info">
-              <h4>Kampüs Pusulası 🧭</h4>
-              <p>Üniversite ekosistemi için tasarlanmış; doğrulanmış bilgi, etkileşimli haritalar ve sosyal ağları birleştiren hibrit bir platform.</p>
-              <div class="tech-badges">
-                <span class="badge">ASP.NET Core</span>
-                <span class="badge">React Native</span>
-                <span class="badge">PostGIS</span>
-                <span class="badge">AI/NLP</span>
+            <div class="project-box" onclick="showProjectDetails('kampuspusulasi')">
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">🧭 Full Stack</span>
+                    <span class="project-status-badge">🚧 In Progress</span>
+                    <div class="project-thumb" style="background-image: url('https://i.hizliresim.com/suj7axl.png'); background-size: cover;"></div>
+                </div>
+                <div class="project-info">
+                    <h3>Kampüs Pusulası</h3>
+                    <p>Üniversite ekosistemi için tasarlanmış; doğrulanmış bilgi, etkileşimli haritalar ve sosyal ağları birleştiren hibrit bir platform.</p>
+                    <div class="tech-badges">
+                        <span class="badge">ASP.NET Core</span>
+                        <span class="badge">React Native</span>
+                        <span class="badge">PostGIS</span>
+                        <span class="badge">AI/NLP</span>
+                    </div>
+                    <span class="project-cta">View Details</span>
+                </div>
+            </div>
+
+            <div class="project-box" onclick="showProjectDetails('memevision')">
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">👁 Görüntü İşleme Projesi</span>
+                    <span class="project-status-badge">🚧 Geliştirme Aşamasında</span>
+                    <div class="project-thumb" style="background-image: url('https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=1200&auto=format&fit=crop');"></div>
+                </div>
+                <div class="project-info">
+                    <h3>MemeVision AI</h3>
+                    <p>Webcam görüntüsünü gerçek zamanlı işleyerek yüz ifadelerini, göz kapalılığını ve el hareketlerini algılayan eğlenceli bir görüntü işleme uygulaması. Emoji, ses efekti ve kamera kontrollü mini oyunlarla etkileşimli geri bildirim sunar.</p>
+                    <div class="tech-badges">
+                        <span class="badge">Python</span>
+                        <span class="badge">OpenCV</span>
+                        <span class="badge">MediaPipe</span>
+                        <span class="badge">pygame</span>
+                        <span class="badge">NumPy</span>
+                    </div>
+                    <span class="project-cta">View Details</span>
+                </div>
+            </div>
+
+
+            <div class="project-box" onclick="showProjectDetails('tiklagelsin')">
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">🍔 Hackathon · AI Product</span>
+                    <div class="project-thumb" style="background-image: url('header-delivery-logo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #ffffff;"></div>
+                </div>
+                <div class="project-info">
+                    <h3>Tıkla Gelsin – Pickup Social AI</h3>
+                    <p>Yapay zeka destekli sosyal eşleştirme ile pickup (gel-al) siparişlerini artırmaya odaklı bir hackathon projesi: grup yemek davetleri, yakındaki kullanıcı keşfi, marka &amp; kategori benzerliği ve akıllı bildirim önerileri.</p>
+                    <div class="tech-badges">
+                        <span class="badge">AI</span>
+                        <span class="badge">Hackathon</span>
+                        <span class="badge">Recommendation</span>
+                        <span class="badge">Social Matching</span>
+                        <span class="badge">FoodTech</span>
+                    </div>
+                    <span class="project-cta">View Details</span>
+                </div>
+            </div>
+
+            <div class="project-box" onclick="showProjectDetails('vantage127')">
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">🎯 Savunma · Ar-Ge</span>
+                    <span class="project-status-badge">🚀 Akıllı Mühimmat</span>
+                    <div class="project-thumb" style="background-image: url('https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=1200&auto=format&fit=crop');"></div>
+                </div>
+                <div class="project-info">
+                    <h3>VANTAGE-127 – Akıllı Mikro-Mühimmat</h3>
+                    <p>İHA'lardan atılan 12.7mm standart mühimmatlara, lazer-bağımsız RF/INS tabanlı akıllı güdüm yeteneği kazandıran maliyet-etkin bir Ar-Ge projesi. Donanım kısıtlarını yazılım algoritmalarıyla aşar.</p>
+                    <div class="tech-badges">
+                        <span class="badge">Akıllı Mühimmat</span>
+                        <span class="badge">Sensör Füzyonu</span>
+                        <span class="badge">6-DOF Simülasyon</span>
+                        <span class="badge">Python</span>
+                        <span class="badge">Kontrol Algoritmaları</span>
+                        <span class="badge">Savunma Sanayii</span>
+                    </div>
+                    <span class="project-cta">View Details</span>
+                </div>
+            </div>
+
+            <div class="project-box" onclick="showProjectDetails('aquaguard')">
+                <div class="project-thumb-wrap">
+                    <span class="project-category-badge">🌿 Smart Agriculture</span>
+                    <span class="project-status-badge" style="background: rgba(139, 92, 246, 0.18); color: var(--secondary); border-color: rgba(139, 92, 246, 0.4);">🤖 IoT · AI System</span>
+                    <div class="project-thumb" style="background-image: url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1200&auto=format&fit=crop');"></div>
+                </div>
+                <div class="project-info">
+                    <h3>AquaGuard AI Lite – Akıllı Sulama</h3>
+                    <p>AquaGuard AI Lite, toprak nemi ve ortam verilerini kullanarak bitki su stresini analiz eden, sulama önerisi sunan minimum sensörlü akıllı tarım projesidir.</p>
+                    <div class="tech-badges">
+                        <span class="badge">ESP32</span>
+                        <span class="badge">IoT</span>
+                        <span class="badge">Smart Irrigation</span>
+                        <span class="badge">FastAPI</span>
+                        <span class="badge">Web Dashboard</span>
+                        <span class="badge">Embedded</span>
+                    </div>
+                    <span class="project-cta">View Details</span>
+                </div>
+            </div>
+
         </div>
-    </div>
-  <div>
-</div></section>
- 
+    </section>
+
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
-                <h3>Batuhan Eren | Portfolio</h3>
-                <p>Computer Engineering student passionate about building innovative hardware and software solutions.</p>
-                <div class="social-grid" style="justify-content: flex-start;">
-                    <a href="https://github.com/batuern">GitHub</a>
-                    <a href="https://www.linkedin.com/in/batuhan-eren-610975292/">IN</a>
-                    <a href="mailto:batuhneren@gmail.com">✉</a>
+                <h3>Batuhan Eren · Portfolio</h3>
+                <p>Computer Engineering student passionate about building innovative AI products and full-stack software solutions.</p>
+                <div class="social-grid">
+                    <a href="https://github.com/batuern" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/batuhan-eren-610975292/" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="mailto:batuhneren@gmail.com">Email</a>
                 </div>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a onclick="switchSection('home')" style="cursor: pointer;">Home</a></li>
-                    <li><a onclick="switchSection('projects')" style="cursor: pointer;">Projects</a></li>
-                    <li><a onclick="switchSection('skills')" style="cursor: pointer;">Skills</a></li>
+                    <li><a onclick="switchSection('home')">Home</a></li>
+                    <li><a onclick="switchSection('education')">Education</a></li>
+                    <li><a onclick="switchSection('projects')">Projects</a></li>
+                    <li><a onclick="switchSection('skills')">Skills</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Connect</h4>
                 <ul>
-                    <li><a onclick="toggleChat()" style="cursor: pointer;">AI Chatbot</a></li>
+                    <li><a onclick="toggleChat()">AI Assistant</a></li>
+                    <li><a href="mailto:batuhneren@gmail.com">batuhneren@gmail.com</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Batuhan Eren Portfolio. All rights reserved.</p>
+            <p>© 2026 <span>Batuhan Eren</span>. Crafted with passion.</p>
         </div>
     </footer>
 
     <div class="chat-panel" id="chatWindow">
         <div class="chat-top">
-            <span>🤖 Batuhan AI</span>
-            <span style="cursor:pointer;" onclick="toggleChat()">×</span>
+            <div class="chat-top-info">
+                <div class="chat-avatar">🤖</div>
+                <div>
+                    <div class="chat-top-name">Batuhan AI</div>
+                    <div class="chat-top-status">Online · Portfolio Assistant</div>
+                </div>
+            </div>
+            <span class="chat-close-x" onclick="toggleChat()">×</span>
         </div>
         <div class="chat-body" id="chatMessages">
             <div class="msg bot">
-                Selam ben Batuhan'ın Asistanıyım! 👋  Sana nasıl yardımcı olabilirim? Aşağıdaki konulardan birini seçebilirsin:
+                Hi 👋 I'm Batuhan's AI Assistant. Ask me anything about his projects, skills, education, or how to get in touch — I'm here to help.
             </div>
         </div>
         <div class="chat-input-box">
-            <input type="text" id="userInput" placeholder="Ask Anything..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()" style="background:var(--primary); border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer">Send</button>
+            <input type="text" id="userInput" placeholder="Ask anything…" onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
-    <div class="chat-button" onclick="toggleChat()">💬</div>
+    <div class="chat-button" onclick="toggleChat()" title="Chat with Batuhan AI">💬</div>
 
     <div id="projectModal" class="modal">
         <div class="modal-box">
@@ -972,67 +1579,23 @@
     </div>
 
     <script>
-        // Seçenek butonlarını ekrana basan fonksiyon
-function appendOptions() {
-    const messagesContainer = document.getElementById('chatMessages');
-    
-    // Eğer zaten butonlar varsa tekrar ekleme
-    if (document.querySelector('.chat-options')) return;
-
-    const optionsContainer = document.createElement('div');
-    optionsContainer.className = 'chat-options';
-
-    const options = [
-        { text: "🚀 Projelerin hakkında bilgi ver", query: "Projelerin (Edu-Tech, Bitki Hastalığı) hakkında bilgi verir misin?" },
-        { text: "💻 Yeteneklerin neler?", query: "Yazılım ve AI konusundaki yeteneklerin neler?" },
-        { text: "🎓 Eğitim hayatın nasıl?", query: "Selçuk Üniversitesi Bilgisayar Mühendisliği eğitimin hakkında bilgi verir misin?" }
-    ];
-
-    options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'chat-option-btn';
-        btn.innerText = opt.text;
-        btn.onclick = () => {
-            document.getElementById('userInput').value = opt.query;
-            sendMessage();
-            optionsContainer.remove(); // Tıklanınca butonları kaldır
-        };
-        optionsContainer.appendChild(btn);
-    });
-
-    messagesContainer.appendChild(optionsContainer);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
-// 2. Chat açıldığında butonları otomatik gösteren ayar
-function toggleChat() { 
-    const win = document.getElementById('chatWindow');
-    const isOpening = (win.style.display !== 'flex');
-    win.style.display = isOpening ? 'flex' : 'none';
-    
-    if (isOpening) {
-        // Chat açılınca 500ms sonra butonları göster (daha doğal durur)
-        setTimeout(appendOptions, 500);
-    }
-}
-       
-         // --- SAYFA GEÇİŞ MANTIĞI (Routing - DÜZELTİLDİ) ---
         const sections = document.querySelectorAll('section');
         const progressBars = document.querySelectorAll('.skill-fill');
         const navLinks = document.querySelectorAll('.nav-link');
 
-
- function switchSection(targetId) {
+        function switchSection(targetId) {
             sections.forEach(sec => sec.classList.remove('active'));
             navLinks.forEach(link => link.classList.remove('active-link'));
 
             const targetSection = document.getElementById(targetId);
-            if(targetSection) targetSection.classList.add('active');
+            if (targetSection) targetSection.classList.add('active');
 
             const activeLink = document.getElementById('nav-' + targetId);
-            if(activeLink) activeLink.classList.add('active-link');
+            if (activeLink) activeLink.classList.add('active-link');
 
-            if(targetId === 'skills') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (targetId === 'skills') {
                 setTimeout(fillSkills, 300);
             } else {
                 resetSkills();
@@ -1050,14 +1613,14 @@ function toggleChat() {
             progressBars.forEach(bar => { bar.style.width = '0'; });
         }
 
-        // --- 2. PROJECT MODAL LOGIC ---
+        // PROJECT MODAL
         function showProjectDetails(projectId) {
             const modal = document.getElementById('projectModal');
             const modalBody = document.getElementById('modalBody');
-            
+
             if (projectId === 'edutech') {
                 modalBody.innerHTML = `
-                    <img src="https://i.hizliresim.com/dj12aeh.jpeg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Edu-Tech Kapak">
+                    <img src="https://i.hizliresim.com/dj12aeh.jpeg" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="Edu-Tech Cover">
                     <div class="project-detail-header">
                         <div class="project-badge">⭐ Top 9 Finalist</div>
                         <h2>Edu-Tech AI Hackathon</h2>
@@ -1083,103 +1646,283 @@ function toggleChat() {
                         </div>
                     </div>
                 `;
-            } 
+            }
             else if (projectId === 'plantdisease') {
-  modalBody.innerHTML = `
-                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Plant Disease App">
-                <div class="project-detail-header">
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                        <div class="project-badge">🍃 Computer Vision</div>
-                        <div class="project-badge" style="background: rgba(250, 204, 21, 0.1); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                modalBody.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1400&auto=format&fit=crop" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="Plant Disease App">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge">🍃 Computer Vision</div>
+                            <div class="project-badge" style="background: rgba(250, 204, 21, 0.15); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                        </div>
+                        <h2>Bitki Hastalığı Tespit Uygulaması</h2>
                     </div>
-                    <h2>Bitki Hastalığı Tespit Uygulaması</h2>
-                </div>
-                <div class="project-detail-section">
-                    <h3>📋 Proje Özeti</h3>
-                    <p>Tarımsal verimliliği artırmak amacıyla geliştirilen bu proje, bitki yapraklarının fotoğraflarını analiz ederek hastalıkları erken evrede tespit eder. Şu an aktif geliştirme sürecinde olan projeye yeni veri setleri ve özellikler eklenmeye devam etmektedir.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>✨ Temel Özellikler</h3>
-                    <ul class="feature-list">
-                        <li><strong>Yüksek Doğruluk:</strong> YOLOv8 modeli kullanılarak eğitilen sistem, %98 üzerinde doğruluk oranıyla çalışır.</li>
-                        <li><strong>Gerçek Zamanlı Analiz:</strong> Kamera görüntüsü üzerinden anlık hastalık tespiti yapabilir.</li>
-                        <li><strong>Oyunlaştırma (Gamification):</strong> Kullanıcıların bitki taradıkça puan kazandığı, seviye atladığı bir sistem geliştirilmektedir.</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>🛠️ Teknolojik Altyapı</h3>
-                    <div class="tech-stack-grid">
-                        <div class="tech-item">Python</div>
-                        <div class="tech-item">YOLOv8</div>
-                        <div class="tech-item">PyTorch</div>
-                        <div class="tech-item">OpenCV</div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>Tarımsal verimliliği artırmak amacıyla geliştirilen bu proje, bitki yapraklarının fotoğraflarını analiz ederek hastalıkları erken evrede tespit eder. Şu an aktif geliştirme sürecinde olan projeye yeni veri setleri ve özellikler eklenmeye devam etmektedir.</p>
                     </div>
-                </div>
-            `;
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Yüksek Doğruluk:</strong> YOLOv8 modeli kullanılarak eğitilen sistem, %98 üzerinde doğruluk oranıyla çalışır.</li>
+                            <li><strong>Gerçek Zamanlı Analiz:</strong> Kamera görüntüsü üzerinden anlık hastalık tespiti yapabilir.</li>
+                            <li><strong>Oyunlaştırma:</strong> Kullanıcıların bitki taradıkça puan kazandığı, seviye atladığı bir sistem geliştirilmektedir.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknolojik Altyapı</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">Python</div>
+                            <div class="tech-item">YOLOv8</div>
+                            <div class="tech-item">PyTorch</div>
+                            <div class="tech-item">OpenCV</div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (projectId === 'kampuspusulasi') {
+                modalBody.innerHTML = `
+                    <img src="https://i.hizliresim.com/suj7axl.png" style="width: 100%; height: 420px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="Kampüs Pusulası Cover">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge">🧭 Kampüs Ekosistemi</div>
+                            <div class="project-badge" style="background: rgba(250, 204, 21, 0.15); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                        </div>
+                        <h2>Kampüs Pusulası (Sosyal Harita &amp; Forum)</h2>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>Üniversite adayları ve mevcut öğrenciler için tarafsız, doğrulanmış bilgi ve anlık kampüs etkileşimi sunan "Web-Mobil Hibrit" bir ekosistemdir.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Detaylı Kampüs Görselleştirme:</strong> PostGIS ve OpenStreetMap destekli etkileşimli fakülte krokileri.</li>
+                            <li><strong>Doğrulanmış Bilgi:</strong> Sadece gerçek öğrencilerin (kayıt evrakıyla doğrulanmış) yorum yapabildiği manipülasyonsuz sistem.</li>
+                            <li><strong>Hibrit Network:</strong> Her üniversiteye özel kapalı sosyal alan ve ulusal açık forum yapısı.</li>
+                            <li><strong>AI Moderasyon:</strong> NLP (Doğal Dil İşleme) kullanarak toksik içeriklerin %90+ başarıyla tespiti.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknolojik Altyapı</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">ASP.NET Core Web API</div>
+                            <div class="tech-item">React Native &amp; TS</div>
+                            <div class="tech-item">PostgreSQL (PostGIS)</div>
+                            <div class="tech-item">Python (FastAPI &amp; BERT)</div>
+                            <div class="tech-item">SignalR (Real-time)</div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (projectId === 'memevision') {
+                modalBody.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=1400&auto=format&fit=crop" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="MemeVision AI Cover">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge">👁 Görüntü İşleme Projesi</div>
+                            <div class="project-badge" style="background: rgba(250, 204, 21, 0.15); color: #facc15; border-color: rgba(250, 204, 21, 0.3);">🚧 Geliştirme Aşamasında</div>
+                        </div>
+                        <h2>MemeVision AI (Computer Vision &amp; Mini Game System)</h2>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>MemeVision AI, webcam görüntüsünü gerçek zamanlı işleyerek yüz ifadelerini, göz kapalılığını ve el hareketlerini algılayan eğlenceli bir görüntü işleme uygulamasıdır. Algılanan duruma göre emoji/efekt gösterir, ses efekti çalar ve kamera ile kontrol edilen mini oyunlar sunar.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Gerçek Zamanlı Webcam İşleme:</strong> Kamera akışı üzerinde anlık görüntü analizi.</li>
+                            <li><strong>Landmark Analizi:</strong> MediaPipe ile yüz, göz, ağız ve el landmark tespiti.</li>
+                            <li><strong>Uyuma Algılama:</strong> Göz kapalılığına göre uyuklama tespiti ve ses tetikleme.</li>
+                            <li><strong>El Hareketi Tanıma:</strong> Thumbs up, peace, open hand gibi jestlerin algılanması.</li>
+                            <li><strong>Mini Oyunlar:</strong> Gesture Challenge, Emoji Catch ve Sleep Challenge modları.</li>
+                            <li><strong>Etkileşimli Geri Bildirim:</strong> Emoji, yazı ve ses efektleriyle anlık görsel/işitsel tepkiler.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknolojik Altyapı</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">Python</div>
+                            <div class="tech-item">OpenCV</div>
+                            <div class="tech-item">MediaPipe Face Mesh</div>
+                            <div class="tech-item">MediaPipe Hands</div>
+                            <div class="tech-item">pygame</div>
+                            <div class="tech-item">NumPy</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            else if (projectId === 'tiklagelsin') {
+                modalBody.innerHTML = `
+                    <img src="header-delivery-logo.png" style="width: 100%; height: 280px; object-fit: contain; background: #ffffff; padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem;" alt="Tıkla Gelsin Logo">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge">🍔 Hackathon · AI Product</div>
+                            <div class="project-badge" style="background: rgba(16,185,129,0.15); color: var(--primary); border-color: var(--border-strong);">⚡ Pickup Social AI</div>
+                        </div>
+                        <h2>Tıkla Gelsin Hackathon – Pickup Social AI</h2>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>Bireysel yemekleri paylaşımlı, sosyal anlara dönüştürerek pickup (gel-al) siparişlerini artırmak için tasarlanmış yapay zeka destekli bir üründür. Sistem, benzer damak tadına sahip yakındaki kullanıcıları akıllıca eşleştirir, grup yemek fırsatlarını öne çıkarır ve bağlama duyarlı akıllı bildirimlerle kullanıcıları yönlendirir — tüm bunlar pickup dönüşüm oranını ve etkileşimi artırmak içindir.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>AI Sosyal Eşleştirme:</strong> Yakındaki kullanıcıları, örtüşen yemek tercihleri ve marka eğilimi temelinde önerir.</li>
+                            <li><strong>Grup Yemek Davetleri:</strong> Kullanıcıların birlikte sipariş vermesine, pickup'ı paylaşmasına ve hızlı bir yemek için buluşmasına olanak tanır.</li>
+                            <li><strong>Yakındaki Kullanıcı Keşfi:</strong> Kullanıcı gizliliğine saygılı, konum tabanlı eşleştirme.</li>
+                            <li><strong>Marka &amp; Kategori Benzerliği:</strong> Davranışsal ve kategorisel sinyallerle çalışan öneri motoru.</li>
+                            <li><strong>Akıllı Bildirim Önerileri:</strong> Sipariş dönüşümünü rahatsız etmeden artıran bağlama duyarlı bildirimler.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknoloji ve Kavramlar</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">AI / Öneri Sistemi</div>
+                            <div class="tech-item">Sosyal Eşleştirme</div>
+                            <div class="tech-item">Konum Tabanlı</div>
+                            <div class="tech-item">FoodTech</div>
+                            <div class="tech-item">Hackathon</div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (projectId === 'vantage127') {
+                modalBody.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=1400&auto=format&fit=crop" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="VANTAGE-127">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge">🎯 Savunma · Ar-Ge</div>
+                            <div class="project-badge" style="background: rgba(16,185,129,0.15); color: var(--primary); border-color: var(--border-strong);">🚀 Akıllı Mühimmat</div>
+                        </div>
+                        <h2>VANTAGE-127 – Akıllı Mikro-Mühimmat Yörünge Düzeltme Kiti</h2>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>İnsansız Hava Araçlarından (İHA) atılan 12.7mm standart mühimmatlara lazer-bağımsız akıllı güdüm yeteneği kazandıran, RF/INS tabanlı maliyet-etkin bir Ar-Ge projesidir. Sistem, donanım kısıtlarını yazılım algoritmalarıyla aşarak yüksek irtifadan ateşlenen merminin sapma payını minimize eder ve maliyetli hedeflere karşı "Mission Kill" stratejisini ulaşılabilir kılar.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Genişletilmiş Durum Gözlemcisi (ESO):</strong> Rüzgar ve sürtünme gibi dış bozucu etkileri sensörsüz tahmin edip telafi eden kontrol algoritması.</li>
+                            <li><strong>Sanal Görüş Hattı (VLOS):</strong> Aktüatör doygunluğunu engelleyerek optimum yörünge takibi sağlayan stabilizasyon mimarisi.</li>
+                            <li><strong>Spin-Sync Faz Kilitleme:</strong> Merminin yüksek devirli dönüşüne (spin) senkronize mikro-manevra tetikleme sistemi.</li>
+                            <li><strong>Lazer-Bağımsız Güdüm:</strong> Kötü hava koşullarından (sis, toz) etkilenmeyen RF/INS tabanlı konumlandırma.</li>
+                            <li><strong>6-DOF Uçuş Simülasyonu:</strong> Python tabanlı sanal ikiz (Digital Twin) ile fiziksel test öncesi sayısal doğrulama.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknoloji ve Kavramlar</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">Akıllı Mühimmat</div>
+                            <div class="tech-item">Sensör Füzyonu</div>
+                            <div class="tech-item">6-DOF Simülasyon</div>
+                            <div class="tech-item">Python</div>
+                            <div class="tech-item">Kontrol Algoritmaları</div>
+                            <div class="tech-item">Savunma Sanayii</div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (projectId === 'aquaguard') {
+                modalBody.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1400&auto=format&fit=crop" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 1.5rem;" alt="AquaGuard AI Lite">
+                    <div class="project-detail-header">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                            <div class="project-badge" style="background: rgba(16,185,129,0.15); color: var(--primary); border-color: var(--border-strong);">🌿 Smart Agriculture</div>
+                            <div class="project-badge">🤖 IoT · AI System</div>
+                        </div>
+                        <h2>AquaGuard AI Lite – Minimum Sensörlü Akıllı Sulama Sistemi</h2>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>📋 Proje Özeti</h3>
+                        <p>Toprak nemi ile ortam sıcaklık/nem verilerini kullanarak bitki su stresini izleyen ve sulama önerisi üreten akıllı tarım projesidir. Sistem, ESP32 tabanlı sensör verilerini gerçek zamanlı olarak toplar, web arayüzünde görselleştirir ve karar destek mantığıyla "sulama gerekli / değil" analizleri sunar. Amaç, minimum sensörle çalışan, düşük maliyetli ve dönem sonunda fiziksel olarak gösterilebilecek uygulanabilir bir prototip geliştirmektir.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>✨ Temel Özellikler</h3>
+                        <ul class="feature-list">
+                            <li><strong>Toprak Nem Takibi:</strong> ESP32 tabanlı toprak nem sensörüyle gerçek zamanlı bitki kök bölgesi analizi.</li>
+                            <li><strong>Ortam Analizi:</strong> Hava sıcaklık ve nem verileriyle bitki su stresini bağlamsal değerlendirme.</li>
+                            <li><strong>Akıllı Sulama Önerisi:</strong> Karar destek mantığıyla "sulama gerekli / değil" çıktısı üreten algoritma.</li>
+                            <li><strong>Canlı Dashboard:</strong> Web arayüzünde anlık sensör verisi görselleştirme ve geçmiş trend grafikleri.</li>
+                            <li><strong>Minimum Sensörlü Mimari:</strong> Düşük maliyetle çalışan, sahaya kolay konuşlanabilir prototip yaklaşımı.</li>
+                            <li><strong>Opsiyonel Otomatik Sulama:</strong> Röle/aktüatör entegrasyonu ile manuel veya tam otomatik sulama desteği.</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>🛠️ Teknoloji ve Kavramlar</h3>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item">ESP32</div>
+                            <div class="tech-item">IoT</div>
+                            <div class="tech-item">Smart Irrigation</div>
+                            <div class="tech-item">FastAPI</div>
+                            <div class="tech-item">Web Dashboard</div>
+                            <div class="tech-item">Embedded Systems</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            modal.style.display = 'block';
         }
-        else if (projectId === 'kampuspusulasi') {
-        modalBody.innerHTML = `
-               <img src="https://i.hizliresim.com/suj7axl.png" style="width: 100%; height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;" alt="Kampus Kapak">
 
-            <div class="project-detail-header">
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                    <div class="project-badge">🧭 Kampüs Ekosistemi</div>
-                    <div class="project-badge" style="background: rgba(250, 204, 21, 0.1); color: #facc15;">🚧 Geliştirme Aşamasında</div>
-                </div>
-                <h2>Kampüs Pusulası (Sosyal Harita & Forum)</h2>
-            </div>
-            <div class="project-detail-section">
-                <h3>📋 Proje Özeti</h3>
-                <p>Üniversite adayları ve mevcut öğrenciler için tarafsız, doğrulanmış bilgi ve anlık kampüs etkileşimi sunan "Web-Mobil Hibrit" bir ekosistemdir.</p>
-            </div>
-            <div class="project-detail-section">
-                <h3>✨ Temel Özellikler</h3>
-                <ul class="feature-list">
-                    <li><strong>Detaylı Kampüs Görselleştirme:</strong> PostGIS ve OpenStreetMap destekli etkileşimli fakülte krokileri.</li>
-                    <li><strong>Doğrulanmış Bilgi:</strong> Sadece gerçek öğrencilerin (kayıt evrakıyla doğrulanmış) yorum yapabildiği manipülasyonsuz sistem.</li>
-                    <li><strong>Hibrit Network:</strong> Her üniversiteye özel kapalı sosyal alan ve ulusal açık forum yapısı.</li>
-                    <li><strong>AI Moderasyon:</strong> NLP (Doğal Dil İşleme) kullanarak toksik içeriklerin %90+ başarıyla tespiti.</li>
-                </ul>
-            </div>
-            <div class="project-detail-section">
-                <h3>🛠️ Teknolojik Altyapı</h3>
-                <div class="tech-stack-grid">
-                    <div class="tech-item">ASP.NET Core Web API</div>
-                    <div class="tech-item">React Native & TS</div>
-                    <div class="tech-item">PostgreSQL (PostGIS)</div>
-                    <div class="tech-item">Python (FastAPI & BERT)</div>
-                    <div class="tech-item">SignalR (Real-time)</div>
-                </div>
-            </div> 
-            `;
+        function closeProjectDetails() {
+            document.getElementById('projectModal').style.display = 'none';
         }
+        window.onclick = function (event) {
+            if (event.target === document.getElementById('projectModal')) closeProjectDetails();
+        };
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProjectDetails();
+        });
 
-
-        modal.style.display = 'block';
-    }
-
-        function closeProjectDetails() { document.getElementById('projectModal').style.display = 'none'; }
-        window.onclick = function(event) { if (event.target === document.getElementById('projectModal')) closeProjectDetails(); }
-
-        // --- 3. AI CHATBOT LOGIC ---
+        // CHATBOT
         const keyPart1 = 'sk-or-v1-';
         const keyPart2 = 'e143033ee85ee96ed2a6aef64ca547c9c31d71c283f8683a86f2018f8792b6b1';
         const API_KEY = keyPart1 + keyPart2;
 
-        let chatHistory = [{ "role": "system", "content": "Sen Batuhan Eren'in asistanısın. Batuhan; Selçuk Üniversitesi 3. sınıf Bilgisayar Mühendisliği öğrencisidir. Projeleri: Edu-Tech (Amazon Bedrock) ve Bitki Hastalığı Tespiti (YOLOv8). Teknik becerileri: Python, NLP, Computer Vision ve C#.  Batuhan Eren'in asistanısın. Batuhan şu an Kampüs Pusulası adında, üniversite öğrencileri için etkileşimli harita (PostGIS), doğrulanmış yorum sistemi ve AI destekli moderasyon (Python NLP) içeren kapsamlı bir platform geliştiriyor." }];
+        const SYSTEM_PROMPT = `You are Batuhan Eren's portfolio AI Assistant. Your role is to greet visitors warmly, answer their questions concisely and professionally, and gently guide them through Batuhan's projects, skills, education, and contact info. Always sound friendly and helpful, never pushy. Reply in the same language as the user (English or Turkish).
 
-        function toggleChat() { 
+ABOUT BATUHAN:
+- 3rd-year Computer Engineering student at Selçuk University (2023–2027 expected).
+- Software & AI Engineer focused on AI/ML, NLP, Computer Vision, and full-stack web/mobile development.
+- Core stack: Python, NLP (BERT, TF-IDF), Computer Vision (OpenCV, YOLOv8, PyTorch), C#, ASP.NET Core, React Native, HTML/CSS/JS, Oracle/PostgreSQL, embedded (PIC), basic game dev.
+
+FEATURED PROJECTS:
+1. Edu-Tech AI Hackathon — Top 9 finalist at Doping Technology AI in Education Hackathon 2025. GenAI-based personalized exam prep on Amazon Bedrock with Claude/ChatGPT APIs. Stack: C#, ASP.NET Core, Amazon Bedrock, GenAI.
+2. Plant Disease Detection — Computer vision system identifying leaf diseases at 98%+ accuracy. Stack: Python, YOLOv8, PyTorch, OpenCV. (Active development.)
+3. Kampüs Pusulası — Hybrid web/mobile platform for university students featuring verified info, interactive PostGIS maps, and AI moderation. Stack: ASP.NET Core, React Native, PostgreSQL/PostGIS, FastAPI/BERT, SignalR.
+
+4. Tıkla Gelsin Hackathon – Pickup Social AI — AI-powered pickup order matching: nearby user discovery, group meals, brand similarity, and smart notification nudges.
+
+CONTACT:
+- GitHub: github.com/batuern
+- LinkedIn: linkedin.com/in/batuhan-eren-610975292/
+- Email: batuhneren@gmail.com
+
+GUIDELINES:
+- Keep replies short (2–4 sentences) unless the user asks for depth.
+- After answering, suggest one relevant next step (e.g. "Would you like to see the Projects section?" or "Want his email?").
+- Never invent projects, dates, grades, or technologies he hasn't used.
+- If the user asks something off-topic, gently steer back to portfolio topics.
+- Tone: professional, warm, and concise — like a knowledgeable friend introducing Batuhan's work.`;
+
+        let chatHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+
+        function toggleChat() {
             const win = document.getElementById('chatWindow');
             const isOpening = (win.style.display !== 'flex');
             win.style.display = isOpening ? 'flex' : 'none';
-            
             if (isOpening) {
-                setTimeout(appendOptions, 500); // Açılınca butonları getir
+                setTimeout(appendOptions, 400);
             }
         }
 
         function handleKeyPress(event) {
-            if (event.key === 'Enter') { sendMessage(); }
+            if (event.key === 'Enter') sendMessage();
         }
 
         function appendOptions() {
@@ -1190,9 +1933,10 @@ function toggleChat() {
             optionsContainer.className = 'chat-options';
 
             const options = [
-                { text: "🚀 Projelerin hakkında bilgi ver", query: "Projelerin hakkında bilgi verir misin?" },
-                { text: "💻 Yeteneklerin neler?", query: "Yazılım ve AI yeteneklerin neler?" },
-                { text: "🎓 Eğitim hayatın nasıl?", query: "Eğitim hayatın hakkında bilgi verir misin?" }
+                { text: "🚀 Tell me about your projects", query: "Can you tell me about your projects?" },
+                { text: "💻 What are your technical skills?", query: "What are your software and AI skills?" },
+                { text: "🎓 Education & background", query: "Tell me about your education and background." },
+                { text: "📬 How can I contact you?", query: "How can I get in touch with you?" }
             ];
 
             options.forEach(opt => {
@@ -1217,57 +1961,66 @@ function toggleChat() {
         async function sendMessage() {
             const input = document.getElementById('userInput');
             const text = input.value.trim();
-            if(!text) return;
+            if (!text) return;
 
             appendMsg(text, 'user');
             input.value = '';
-            chatHistory.push({"role": "user", "content": text});
+            chatHistory.push({ role: "user", content: text });
 
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'msg bot';
             loadingDiv.id = 'loadingMsg';
-            loadingDiv.innerText = '...';
-            document.getElementById('chatMessages').appendChild(loadingDiv);
+            loadingDiv.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+            const messagesEl = document.getElementById('chatMessages');
+            messagesEl.appendChild(loadingDiv);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
 
             try {
                 const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
-                    headers: { 
-                        "Authorization": `Bearer ${API_KEY}`, 
+                    headers: {
+                        "Authorization": `Bearer ${API_KEY}`,
                         "Content-Type": "application/json",
                         "HTTP-Referer": "https://batuhaneren.com",
-                        "X-Title": "Batuhan Portfolio" 
+                        "X-Title": "Batuhan Portfolio"
                     },
-                    body: JSON.stringify({ 
-                        "model": "xiaomi/mimo-v2-flash:free", 
-                        "messages": chatHistory 
+                    body: JSON.stringify({
+                        "model": "google/gemini-2.0-flash-exp:free",
+                        "messages": chatHistory,
+                        "max_tokens": 500
                     })
                 });
-                
+
                 const loader = document.getElementById('loadingMsg');
-                if(loader) loader.remove();
+                if (loader) loader.remove();
 
                 const data = await res.json();
-                if (data.choices && data.choices.length > 0) {
+
+                if (data.choices && data.choices.length > 0 && data.choices[0].message) {
                     const reply = data.choices[0].message.content;
                     appendMsg(reply, 'bot');
-                    chatHistory.push({"role": "assistant", "content": reply});
+                    chatHistory.push({ role: "assistant", content: reply });
+                } else if (data.error) {
+                    console.error('Chat API error:', data.error);
+                    appendMsg("⚠️ " + (data.error.message || "The assistant is temporarily unavailable. Please try again shortly."), 'bot');
                 } else {
-                    appendMsg("⚠️ Sunucu şu an yoğun, lütfen tekrar dene.", 'bot');
+                    appendMsg("⚠️ The assistant is temporarily unavailable. Please try again shortly.", 'bot');
                 }
-            } catch (e) { 
+            } catch (e) {
                 const loader = document.getElementById('loadingMsg');
-                if(loader) loader.remove();
-                appendMsg("⚠️ Bağlantı hatası oluştu.", 'bot'); 
+                if (loader) loader.remove();
+                console.error('Chat connection error:', e);
+                appendMsg("⚠️ Connection error. Please check your network and try again.", 'bot');
             }
         }
 
-        function appendMsg(t, s) {
+        function appendMsg(text, sender) {
             const div = document.createElement('div');
-            div.className = 'msg ' + s;
-            div.innerText = t;
-            document.getElementById('chatMessages').appendChild(div);
-            document.getElementById('chatMessages').scrollTop = 9999;
+            div.className = 'msg ' + sender;
+            div.innerText = text;
+            const messagesEl = document.getElementById('chatMessages');
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
         }
     </script>
 </body>
